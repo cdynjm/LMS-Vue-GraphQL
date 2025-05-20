@@ -1,0 +1,14 @@
+#TYPES
+type User {
+  id: String!
+  name: String!
+  email: String!
+  role: String!
+  created_at: String!
+  updated_at: String!
+}
+
+# ADMIN QUERY
+type Query @guard {
+  admins: [User!]! @field(resolver: "App\\GraphQL\\Queries\\Admin\\AdminManagement")
+}
