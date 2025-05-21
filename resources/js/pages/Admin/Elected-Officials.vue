@@ -391,7 +391,7 @@ const handleUpdatePictureChange = async (event: Event) => {
                                 </div>
 
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label class="text-right">Change Picture</Label>
+                                    <Label class="text-left">Change Picture</Label>
                                     <Input type="file" class="col-span-3" @change="handleUpdatePictureChange"
                                         accept="image/*" />
                                 </div>
