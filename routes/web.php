@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Guest\HomeController;
-use App\Http\Controllers\Admin\AdminManagement;
+use App\Http\Controllers\Admin\AdminManagementController;
+use App\Http\Controllers\Admin\ElectedOfficialsController;
+use App\Http\Controllers\Admin\FileManagerController;
+use App\Http\Controllers\Admin\FileController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -15,10 +18,23 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/admin-management', [AdminManagement::class, 'index'])->name('admin.management');
-        Route::post('/admin-management/create', [AdminManagement::class, 'createAdmin'])->name('create.admin');
-        Route::patch('/admin-management/update', [AdminManagement::class, 'updateAdmin'])->name('update.admin');
-        Route::delete('/admin-management/delete', [AdminManagement::class, 'deleteAdmin'])->name('delete.admin');
+        Route::get('/admin-management', [AdminManagementController::class, 'index'])->name('admin.management');
+        Route::post('/admin-management/create', [AdminManagementController::class, 'createAdmin'])->name('create.admin');
+        Route::patch('/admin-management/update', [AdminManagementController::class, 'updateAdmin'])->name('update.admin');
+        Route::delete('/admin-management/delete', [AdminManagementController::class, 'deleteAdmin'])->name('delete.admin');
+
+        Route::get('/elected-officials', [ElectedOfficialsController::class, 'index'])->name('admin.elected-officials');
+        Route::post('/elected-officials/create', [ElectedOfficialsController::class, 'createOfficial'])->name('create.official');
+        Route::post('/elected-officials/update', [ElectedOfficialsController::class, 'updateOfficial'])->name('update.official');
+        Route::delete('/elected-officials/delete', [ElectedOfficialsController::class, 'deleteOfficial'])->name('delete.official');
+    
+        Route::get('/file-manager', [FileManagerController::class, 'index'])->name('admin.file-manager');
+        Route::post('/file-manager/create', [FileManagerController::class, 'createCategory'])->name('create.category');
+        Route::patch('/file-manager/update', [FileManagerController::class, 'updateCategory'])->name('update.category');
+        Route::delete('/file-manager/delete', [FileManagerController::class, 'deleteCategory'])->name('delete.category');
+
+        Route::get('/files/{id}', [FileController::class, 'index'])->name('admin.files');
+
     });
 });
 

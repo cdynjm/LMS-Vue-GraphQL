@@ -1,14 +1,66 @@
-#TYPES
+#TYPES MODEL
 type User {
   id: String!
+  encrypted_id: String!
   name: String!
   email: String!
   role: String!
   created_at: String!
   updated_at: String!
+  official: Officials @belongsTo
 }
 
-# ADMIN QUERY
+type Officials {
+  id: String!
+  encrypted_id: String!
+  name: String!
+  address: String!
+  position: String!
+  status: String!
+  photo: String!
+  created_at: String!
+  updated_at: String!
+  user: User @hasOne
+}
+
+type Categories {
+  id: String!
+  encrypted_id: String!
+  category: String!
+  parentID: String!
+  created_at: String!
+}
+
+# TYPES CONTAINERS FOR PAGES
+type Dashboard {
+  adminsCount: Int!
+  officialsCount: Int!
+  categoriesCount: Int!
+  filesCount: Int!
+}
+
+type Category {
+  categoriesList: [Categories!]!
+}
+
+type Files {
+  categoryName: Categories!
+}
+
+# ADMIN QUERY - PAGES
 type Query @guard {
-  admins: [User!]! @field(resolver: "App\\GraphQL\\Queries\\Admin\\AdminManagement")
+  dashboard: Dashboard 
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\Dashboard")
+
+  admins: [User!]!
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\AdminManagement")
+
+  officials: [Officials!]!
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\ElectedOfficials")
+  
+  categories: Category
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\FileManager")
+
+  files(id: String!): Files
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\Files")
 }

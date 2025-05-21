@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\AESCipher;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'id',
+        'officialID',
         'name',
         'email',
         'password',
@@ -48,4 +51,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function official()
+    {
+        return $this->belongsTo(Officials::class, 'officialID', 'id');
+    }
+
+    public function getEncryptedIdAttribute(): string
+    {
+        return app(AESCipher::class)->encrypt((string) $this->attributes['id']);
+    }
+
 }

@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\AESCipher;
 
-class AdminManagement extends Controller
+class AdminManagementController extends Controller
 {
     public function __construct(protected AESCipher $aes) {}
 
@@ -39,7 +39,7 @@ class AdminManagement extends Controller
     {
         $request->validate([
             'email' => ['required','email','max:255',
-                Rule::unique('users', 'email')->ignore($this->aes->decrypt($request->id)),
+                Rule::unique('users', 'email')->ignore($this->aes->decrypt($request->id))
             ],
         ]);
 
@@ -48,7 +48,7 @@ class AdminManagement extends Controller
             'email' => $request->email,
         ]);
 
-        if($request->password) {
+        if(!empty($request->password)) {
             $user = User::where('id', $this->aes->decrypt($request->id))->update([
                 'password' => bcrypt($request->password),
             ]);

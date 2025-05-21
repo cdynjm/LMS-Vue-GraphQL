@@ -2,7 +2,8 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-
+import { useQuery, useQueryClient } from '@tanstack/vue-query'
+import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Users, Folder, FileArchive, UserCheck } from 'lucide-vue-next'
 
@@ -12,6 +13,28 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/dashboard',
     },
 ];
+
+const queryClient = useQueryClient()
+
+const fetchDashboardCounts = async () => {
+    const query = `
+        query {
+            dashboard {
+                adminsCount
+                officialsCount
+            }
+        }
+    `
+
+    const response = await axios.post('/graphql', {query});
+    return response.data.data;
+}
+
+const { isPending, data, error, isFetching } = useQuery({
+    queryKey: ['fetchDashboardCounts'],
+    queryFn: fetchDashboardCounts
+});
+
 </script>
 
 <template>
@@ -25,7 +48,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <Users class="w-5 h-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p class="text-2xl font-bold">0</p>
+                    <p class="text-2xl font-bold">{{ data?.dashboard.adminsCount }}</p>
                 </CardContent>
             </Card>
 
@@ -55,7 +78,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     <UserCheck class="w-5 h-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p class="text-2xl font-bold">0</p>
+                    <p class="text-2xl font-bold">{{ data?.dashboard.officialsCount }}</p>
                 </CardContent>
             </Card>
         </div>

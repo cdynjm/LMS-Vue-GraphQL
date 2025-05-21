@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2 } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, Loader2Icon } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 
 const queryClient = useQueryClient()
@@ -34,7 +34,7 @@ const fetchAdmins = async () => {
     const query = `
     query {
       admins {
-        id
+        encrypted_id
         name
         email
         role
@@ -151,7 +151,7 @@ const deleteAdmin = () => {
 
                 <Dialog v-model:open="openDialog">
                     <DialogTrigger as-child>
-                        <Button @click="createAdminDialog">
+                        <Button @click="createAdminDialog" class="cursor-pointer">
                             + New
                         </Button>
                     </DialogTrigger>
@@ -166,23 +166,23 @@ const deleteAdmin = () => {
                         <form action="" @submit.prevent="createAdmin">
                             <div class="grid gap-4 py-4">
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="name" class="text-right">Name</Label>
-                                    <Input id="name" v-model="createForm.name" placeholder="John Doe" class="col-span-3"
+                                    <Label class="text-right">Name</Label>
+                                    <Input v-model="createForm.name" placeholder="John Doe" class="col-span-3"
                                         required />
                                 </div>
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="email" class="text-right">Email</Label>
-                                    <Input id="email" v-model="createForm.email" type="email"
-                                        placeholder="john@example.com" class="col-span-3" required />
+                                    <Label class="text-right">Email</Label>
+                                    <Input v-model="createForm.email" type="email" placeholder="john@example.com"
+                                        class="col-span-3" required />
                                 </div>
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="role" class="text-start">Password</Label>
-                                    <Input id="role" v-model="createForm.password" placeholder="Password"
-                                        type="password" class="col-span-3" required />
+                                    <Label class="text-start">Password</Label>
+                                    <Input v-model="createForm.password" placeholder="Password" type="password"
+                                        class="col-span-3" required />
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit">Save</Button>
+                                <Button type="submit" class="cursor-pointer" :disabled="createForm.processing">Save</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -200,23 +200,23 @@ const deleteAdmin = () => {
                         <form action="" @submit.prevent="updateAdmin">
                             <div class="grid gap-4 py-4">
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="name" class="text-right">Name</Label>
-                                    <Input id="name" v-model="updateForm.name" placeholder="John Doe" class="col-span-3"
+                                    <Label class="text-right">Name</Label>
+                                    <Input v-model="updateForm.name" placeholder="John Doe" class="col-span-3"
                                         required />
                                 </div>
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="email" class="text-right">Email</Label>
-                                    <Input id="email" v-model="updateForm.email" type="email"
-                                        placeholder="john@example.com" class="col-span-3" required />
+                                    <Label class="text-right">Email</Label>
+                                    <Input v-model="updateForm.email" type="email" placeholder="john@example.com"
+                                        class="col-span-3" required />
                                 </div>
                                 <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label for="role" class="text-start">Change Password</Label>
-                                    <Input id="role" v-model="updateForm.password" placeholder="Password"
-                                        type="password" class="col-span-3" />
+                                    <Label class="text-start">Change Password</Label>
+                                    <Input v-model="updateForm.password" placeholder="Password" type="password"
+                                        class="col-span-3" />
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit">Save</Button>
+                                <Button type="submit" class="cursor-pointer" :disabled="updateForm.processing">Save</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -233,7 +233,7 @@ const deleteAdmin = () => {
 
                         <form action="" @submit.prevent="deleteAdmin">
                             <DialogFooter>
-                                <Button type="submit" variant="destructive">Delete</Button>
+                                <Button type="submit" class="cursor-pointer" variant="destructive" :disabled="deleteForm.processing">Delete</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -243,6 +243,7 @@ const deleteAdmin = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
+                        <TableHead class="w-[50px]">#</TableHead>
                         <TableHead>Name</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Role</TableHead>
@@ -250,15 +251,33 @@ const deleteAdmin = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="admin in data?.admins" :key="admin.id">
+                    <TableRow v-if="isPending">
+                        <TableCell colspan="5" class="text-center">
+                            <small class="text-center text-green-500 flex items-center justify-center">
+                                <Loader2Icon class="mr-2 w-5" />
+                                Loading...
+                            </small>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow v-if="data?.admins.length == 0">
+                        <TableCell colspan="10">
+                            <small class="text-center text-red-500 flex items-center justify-center">
+                                <MinusCircle class="mr-2 w-5" />
+                                No Data Found
+                            </small>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow v-for="(admin, index) in data?.admins" :key="admin.encrypted_id">
+                        <TableCell><small>{{ index + 1 }}</small></TableCell>
                         <TableCell>{{ admin.name }}</TableCell>
                         <TableCell>{{ admin.email }}</TableCell>
                         <TableCell>{{ admin.role == 1 ? 'Admin' : '' }}</TableCell>
                         <TableCell class="text-right">
-                            <Button variant="link" @click="editAdminDialog(admin.id, admin.name, admin.email)">
+                            <Button variant="link" class="ml-2 cursor-pointer"
+                                @click="editAdminDialog(admin.encrypted_id, admin.name, admin.email)">
                                 <Pencil />
                             </Button>
-                            <Button variant="destructive" @click="deleteAdminDialog(admin.id)" class="ml-2">
+                            <Button variant="destructive" @click="deleteAdminDialog(admin.encrypted_id)" class="ml-2 cursor-pointer">
                                 <Trash2 />
                             </Button>
                         </TableCell>

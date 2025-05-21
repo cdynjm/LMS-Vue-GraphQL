@@ -25,7 +25,7 @@ const mainNavItems: NavItem[] = [
         icon: UserCheck,
     },
     {
-        title: 'File Manaager',
+        title: 'File Manager',
         href: '/admin/file-manager',
         icon: Folder,
     },
