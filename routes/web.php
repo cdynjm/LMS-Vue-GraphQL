@@ -40,6 +40,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
         Route::get('/files/{id}', [FileController::class, 'index'])->name('admin.files');
         Route::post('/files/create', [FileController::class, 'createFile'])->name('create.file');
+        Route::post('/files/subcategory/create', [FileController::class, 'createSubcategory'])->name('create.subcategory');
+        Route::patch('/files/subcategory/update', [FileController::class, 'updateSubcategory'])->name('update.subcategory');
+        Route::delete('/files/subcategory/delete', [FileController::class, 'deleteSubcategory'])->name('delete.subcategory');
 
     });
 });

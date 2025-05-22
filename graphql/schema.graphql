@@ -28,6 +28,7 @@ type Categories {
   category: String!
   parentID: String!
   created_at: String!
+  totalFiles: Int! @count(relation: "totalFiles")
 }
 
 type Files {
@@ -81,9 +82,24 @@ type Category {
 
 type File {
   categoryName: Categories!
-  filesList: [Files!]!
+  filesListPaginated: FilePagination!
   authors: [Officials!]!
+  subCategoriesList: [Categories!]!
 }
+
+type FilePagination {
+  data: [Files!]!
+  paginatorInfo: PaginatorInfo!
+}
+
+type PaginatorInfo {
+  currentPage: Int!
+  lastPage: Int!
+  perPage: Int!
+  total: Int!
+  hasMorePages: Boolean!
+}
+
 
 # ADMIN QUERY - PAGES
 type Query @guard {
@@ -99,6 +115,6 @@ type Query @guard {
   categories: Category
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\FileManager")
 
-  files(id: String!): File
+  files(id: String!, page: Int, first: Int!): File
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\File")
 }

@@ -3,6 +3,8 @@
 namespace App\GraphQL\Queries\Admin;
 use App\Models\Officials;
 use App\Models\User;
+use App\Models\Categories;
+use App\Models\Files;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Controllers\AESCipher;
@@ -19,6 +21,8 @@ final readonly class Dashboard
         return [
             'adminsCount' => User::where('role', 1)->count(),
             'officialsCount' => Officials::where('status', 1)->count(),
+            'categoriesCount' => Categories::count(),
+            'filesCount' => Files::count(),
         ];
     }
 

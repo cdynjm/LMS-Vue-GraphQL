@@ -18,11 +18,34 @@ final readonly class File
         if (! $this->authorize()) {
             throw new AuthorizationException('You are not authorized to access fields');
         }
+
         $aes = new AESCipher();
+      
+        $page = $args['page'];
+        $perPage = $args['first'];
+
+        $paginator = Files::with((new Files)->relation)
+            ->where('categoryID', $aes->decrypt($args['id']))
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage, ['*'], 'page', $page);
+
         return [
-            'categoryName' => Categories::where('id', $aes->decrypt($args['id']))->first(),
-            'filesList' => Files::with((new Files)->relation)->where('categoryID', $aes->decrypt($args['id']))->orderBy('created_at', 'DESC')->get(),
+            'categoryName' => Categories::find($aes->decrypt($args['id'])),
+            
+            'filesListPaginated' => [
+                'data' => $paginator->items(),
+                'paginatorInfo' => [
+                    'currentPage' => $paginator->currentPage(),
+                    'lastPage' => $paginator->lastPage(),
+                    'perPage' => $paginator->perPage(),
+                    'total' => $paginator->total(),
+                    'hasMorePages' => $paginator->hasMorePages(),
+                ],
+            ],
+
             'authors' => Officials::orderBy('name', 'ASC')->get(),
+
+            'subCategoriesList' => Categories::where('parentID', $aes->decrypt($args['id']))->orderBy('created_at', 'DESC')->get(),
         ];
     }
     private function authorize(): bool

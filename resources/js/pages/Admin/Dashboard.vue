@@ -22,6 +22,8 @@ const fetchDashboardCounts = async () => {
             dashboard {
                 adminsCount
                 officialsCount
+                categoriesCount
+                filesCount
             }
         }
     `
@@ -58,7 +60,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <Folder class="w-5 h-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p class="text-2xl font-bold">0</p>
+                    <p class="text-2xl font-bold">{{ data?.dashboard.categoriesCount }}</p>
                 </CardContent>
             </Card>
 
@@ -68,7 +70,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <FileArchive class="w-5 h-5 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <p class="text-2xl font-bold">0</p>
+                    <p class="text-2xl font-bold">{{ data?.dashboard.filesCount }}</p>
                 </CardContent>
             </Card>
 

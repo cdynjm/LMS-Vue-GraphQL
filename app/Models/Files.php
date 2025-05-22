@@ -37,17 +37,17 @@ class Files extends Model
 
     public function category()
     {
-        return $this->hasOne(Categories::class, 'id', 'categoryID');
+        return $this->hasOne(Categories::class, 'id', 'categoryID')->withTrashed();
     }
 
     public function author()
     {
-        return $this->hasOne(Officials::class, 'id', 'authorID');
+        return $this->hasOne(Officials::class, 'id', 'authorID')->withTrashed();
     }
 
     public function coAuthors()
     {
-        return $this->hasMany(CoAuthor::class, 'fileID', 'id');
+        return $this->hasMany(CoAuthor::class, 'fileID', 'id')->withTrashed();
     }
 
     public function getEncryptedIdAttribute(): string

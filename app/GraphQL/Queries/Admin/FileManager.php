@@ -19,7 +19,7 @@ final readonly class FileManager
         }
 
         return [
-            'categoriesList' => Categories::orderBy('created_at', 'DESC')->get(),
+            'categoriesList' => Categories::with((new Categories)->relation)->where('parentID', 0)->orderBy('created_at', 'DESC')->get(),
         ];
     }
     private function authorize(): bool

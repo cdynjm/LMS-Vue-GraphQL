@@ -10,6 +10,8 @@ class Categories extends Model
 {
     use SoftDeletes;
 
+    public $relation = ['totalFiles'];
+
     protected $table = 'categories';
 
     protected $fillable = [
@@ -17,6 +19,11 @@ class Categories extends Model
         'category',
         'parentID',
     ];
+
+    public function totalFiles()
+    {
+        return $this->hasMany(Files::class, 'categoryID', 'id')->withTrashed();
+    }
 
     public function getEncryptedIdAttribute(): string
     {

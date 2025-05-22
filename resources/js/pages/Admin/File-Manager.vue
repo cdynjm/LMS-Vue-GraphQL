@@ -51,6 +51,7 @@ const fetchCategories = async () => {
             category
             parentID
             created_at
+            totalFiles
         }
       }
     }
@@ -217,7 +218,7 @@ const deleteCategory = () => {
                         <DialogHeader>
                             <DialogTitle>Delete Official</DialogTitle>
                             <DialogDescription>
-                                Are you sure you want to delete this official? This action cannot be undone.
+                                Are you sure you want to delete this category? This action cannot be undone.
                             </DialogDescription>
                         </DialogHeader>
 
@@ -275,7 +276,7 @@ const deleteCategory = () => {
                             </div>
                             </Link>
                         </TableCell>
-                        <TableCell>0</TableCell>
+                        <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>
 
                         <TableCell class="text-right">

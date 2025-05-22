@@ -20,7 +20,7 @@ class CoAuthor extends Model
 
     public function official()
     {
-        return $this->hasOne(Officials::class, 'id', 'officialID');
+        return $this->hasOne(Officials::class, 'id', 'officialID')->withTrashed();
     }
 
     public function getEncryptedIdAttribute(): string

@@ -47,6 +47,31 @@ class FileController extends Controller
                 ]);
             }
         }
+    }
 
+    public function createSubcategory(Request $request)
+    {
+        $request->validate([
+            'category' => ['required', 'string', 'max:255'],
+        ]);
+
+        Categories::create([
+            'category' => $request->category,
+            'parentID' => $this->aes->decrypt($request->id),
+        ]);
+    }
+
+    public function updateSubcategory(Request $request) {
+        $request->validate([
+            'category' => ['required','string','max:255'],
+        ]);
+
+        Categories::where('id', $this->aes->decrypt($request->id))->update([
+            'category' => $request->category,
+        ]);
+    }
+
+    public function deleteSubcategory(Request $request) {
+        $category = Categories::where('id', $this->aes->decrypt($request->id))->delete();
     }
 }

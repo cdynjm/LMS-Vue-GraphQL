@@ -26,7 +26,7 @@ class Officials extends Model
 
     public function user() 
     {
-        return $this->hasOne(User::class, 'officialID', 'id');
+        return $this->hasOne(User::class, 'officialID', 'id')->withTrashed();
     }
 
     public function getEncryptedIdAttribute(): string
