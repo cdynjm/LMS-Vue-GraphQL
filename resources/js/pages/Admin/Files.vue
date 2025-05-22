@@ -73,16 +73,28 @@ const fetchFiles = async () => {
         filesListPaginated {
           data {
             encrypted_id
-            title
-            ordinanceNumber
             municipalStatus
             provincialStatus
+            title
+            firstReadingDate
+            secondReadingDate
+            thirdReadingDate
+            ordinanceNumber
+            finalTitle
+            enactmentDate
+            lceapprovalDate
+            transmittalDate
+            spslapprovalDate
+            postStatus
+            publishStatus
             file
             author {
+              encrypted_id
               name
             }
             coAuthors {
               official {
+                encrypted_id
                 name
               }
             }
@@ -169,14 +181,6 @@ const createForm = useForm({
     file: null as any
 });
 
-const addCoAuthor = () => {
-    createForm.coauthor.push('');
-};
-
-const removeCoAuthor = (index: number) => {
-    createForm.coauthor.splice(index, 1);
-};
-
 const createFile = () => {
     createForm.post(route('create.file'), {
         onSuccess: () => {
@@ -206,6 +210,125 @@ const handleFileChange = async (event: Event) => {
     createForm.file = file;
     console.log('Selected file:', file);
 };
+
+const addCoAuthor = () => {
+    createForm.coauthor.push('');
+};
+
+const removeCoAuthor = (index: number) => {
+    createForm.coauthor.splice(index, 1);
+};
+
+
+
+const editDialog = ref(false);
+
+function editFileDialog(
+    id: string,
+    categoryID: string,
+    municipalStatus: string,
+    provincialStatus: string,
+    title: string,
+    author: string,
+    coauthor: string[],
+    firstReadingDate: string,
+    secondReadingDate: string,
+    thirdReadingDate: string,
+    ordinanceNumber: string,
+    finalTitle: string,
+    enactmentDate: string,
+    lceapprovalDate: string,
+    transmittalDate: string,
+    spslapprovalDate: string,
+    postStatus: string,
+    publishStatus: string,
+) {
+    updateForm.id = id;
+    updateForm.categoryID = categoryID;
+    updateForm.municipalStatus = municipalStatus;
+    updateForm.provincialStatus = provincialStatus;
+    updateForm.title = title;
+    updateForm.author = author;
+    updateForm.coauthor = coauthor;
+    updateForm.firstReadingDate = firstReadingDate;
+    updateForm.secondReadingDate = secondReadingDate;
+    updateForm.thirdReadingDate = thirdReadingDate;
+    updateForm.ordinanceNumber = ordinanceNumber;
+    updateForm.finalTitle = finalTitle;
+    updateForm.enactmentDate = enactmentDate;
+    updateForm.lceapprovalDate = lceapprovalDate;
+    updateForm.transmittalDate = transmittalDate;
+    updateForm.spslapprovalDate = spslapprovalDate;
+    updateForm.postStatus = postStatus;
+    updateForm.publishStatus = publishStatus;
+    editDialog.value = true;
+}
+
+const updateForm = useForm({
+    id: '' as string,
+    categoryID: '' as string,
+    municipalStatus: '' as string,
+    provincialStatus: '' as string,
+    title: '' as string,
+    author: '' as string,
+    coauthor: [] as string[],
+    firstReadingDate: '' as string,
+    secondReadingDate: '' as string,
+    thirdReadingDate: '' as string,
+    ordinanceNumber: '' as string,
+    finalTitle: '' as string,
+    enactmentDate: '' as string,
+    lceapprovalDate: '' as string,
+    transmittalDate: '' as string,
+    spslapprovalDate: '' as string,
+    postStatus: '' as string,
+    publishStatus: '' as string,
+    file: null as any,
+});
+
+const updateFile = () => {
+    createForm.post(route('create.file'), {
+        onSuccess: () => {
+            toast.success('File created and uploaded successfully');
+            createForm.reset();
+            openDialog.value = false;
+            queryClient.invalidateQueries({ queryKey: ['fetchFiles'] });
+        },
+        onError: () => {
+            toast.error('Error creating file');
+            console.error('Error');
+        },
+    });
+};
+
+const handleEditFileChange = async (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const maxSizeInMB = 2;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    if (file.size > maxSizeInBytes) {
+        input.value = ''; // Clear input
+        toast.error('File too large. Please select a smaller file.');
+    }
+    createForm.file = file;
+    console.log('Selected file:', file);
+};
+
+const addEditCoAuthor = () => {
+    updateForm.coauthor.push('');
+};
+
+const removeEditCoAuthor = (index: number) => {
+    updateForm.coauthor.splice(index, 1);
+};
+
+function getCoAuthorIds(coAuthors: { official: { encrypted_id: string } }[]) {
+    return coAuthors.map(co => co.official.encrypted_id);
+}
+
+
 
 const openCategoryDialog = ref(false);
 
@@ -334,7 +457,7 @@ const deleteCategory = () => {
                             </div>
                             <DialogFooter>
                                 <Button type="submit" class="cursor-pointer"
-                                    :disabled="createForm.processing">Save</Button>
+                                    :disabled="createCategoryForm.processing">Save</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -368,7 +491,7 @@ const deleteCategory = () => {
                 <Dialog v-model:open="deleteCategoryDialog">
                     <DialogContent class="sm:max-w-[600px]">
                         <DialogHeader>
-                            <DialogTitle>Delete Official</DialogTitle>
+                            <DialogTitle>Delete Subcategory</DialogTitle>
                             <DialogDescription>
                                 Are you sure you want to delete this category? This action cannot be undone.
                             </DialogDescription>
@@ -479,6 +602,161 @@ const deleteCategory = () => {
                                     Save
                                 </Button>
                             </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+
+                <Dialog v-model:open="editDialog">
+                    <DialogContent class="sm:max-w-[800px] w-full max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>Edit File</DialogTitle>
+                            <DialogDescription>Edit the selected file's details below.</DialogDescription>
+                        </DialogHeader>
+
+                        <form @submit.prevent="updateFile" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                            <!-- Municipal Status -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Municipal Status</Label>
+                                <Select v-model="updateForm.municipalStatus" required>
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select a status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="1">Draft Ordinance</SelectItem>
+                                        <SelectItem value="2">Approved Ordinance</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <!-- Provincial Status -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Provincial Status</Label>
+                                <Select v-model="updateForm.provincialStatus" required>
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select a status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="1">Draft Ordinance</SelectItem>
+                                        <SelectItem value="2">Approved Ordinance</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="md:col-span-2">
+                                <Label class="text-sm font-medium text-gray-700">Title of Ordinance</Label>
+                                <Textarea v-model="updateForm.title" class="w-full" />
+                            </div>
+
+                            <!-- Author -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Author</Label>
+                                <Select v-model="updateForm.author" required>
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select an author" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem v-for="author in data?.files.authors" :key="author.encrypted_id"
+                                            :value="author.encrypted_id">
+                                            {{ author.name }}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <!-- Co Authors -->
+                            <div class="md:col-span-2">
+                                <Label class="text-sm font-medium text-gray-700">Co Authors</Label>
+                                <div class="space-y-3">
+                                    <div v-for="(co, index) in updateForm.coauthor" :key="index"
+                                        class="flex items-center gap-2">
+                                        <Select v-model="updateForm.coauthor[index]" required class="flex-1">
+                                            <SelectTrigger class="w-full">
+                                                <SelectValue placeholder="Select a co-author" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem v-for="author in data?.files.authors"
+                                                    :key="author.encrypted_id" :value="author.encrypted_id">
+                                                    {{ author.name }}
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <button type="button" @click="removeEditCoAuthor(index)"
+                                            class="text-red-500 cursor-pointer">✕</button>
+                                    </div>
+
+                                    <button type="button" @click="addEditCoAuthor" class="text-blue-500 text-sm cursor-pointer">
+                                        + Add
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Ordinance Number -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Ordinance Number</Label>
+                                <Input v-model="updateForm.ordinanceNumber" type="text" class="w-full" />
+                            </div>
+
+                            <!-- Final Title -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Final Title</Label>
+                                <Input v-model="updateForm.finalTitle" type="text" class="w-full" />
+                            </div>
+
+                            <!-- Dates -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">1st Reading Date</Label>
+                                <Input v-model="updateForm.firstReadingDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">2nd Reading Date</Label>
+                                <Input v-model="updateForm.secondReadingDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">3rd Reading Date</Label>
+                                <Input v-model="updateForm.thirdReadingDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Enactment Date</Label>
+                                <Input v-model="updateForm.enactmentDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">LCE Approval Date</Label>
+                                <Input v-model="updateForm.lceapprovalDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Transmittal Date</Label>
+                                <Input v-model="updateForm.transmittalDate" type="date" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">SPSL Approval Date</Label>
+                                <Input v-model="updateForm.spslapprovalDate" type="date" />
+                            </div>
+
+                            <!-- Post & Publish Status -->
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Post Status</Label>
+                                <Input v-model="updateForm.postStatus" />
+                            </div>
+                            <div>
+                                <Label class="text-sm font-medium text-gray-700">Publish Status</Label>
+                                <Input v-model="updateForm.publishStatus" />
+                            </div>
+
+                            <!-- File Upload -->
+                            <div class="md:col-span-2">
+                                <Label class="text-sm font-medium text-gray-700">Update File</Label>
+                                <Input type="file" @change="handleFileChange" accept=".pdf" />
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="md:col-span-2 text-right">
+                                <Button type="submit" :disabled="updateForm.processing">
+                                    Save Changes
+                                </Button>
+                            </div>
+
                         </form>
                     </DialogContent>
                 </Dialog>
@@ -638,9 +916,29 @@ const deleteCategory = () => {
                             <Button variant="link" class="ml-0 cursor-pointer">
                                 <Eye />
                             </Button>
-                            <Button variant="link" class="ml-0 cursor-pointer">
+                            <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
+                                file.encrypted_id,
+                                file.categoryID,
+                                file.municipalStatus,
+                                file.provincialStatus,
+                                file.title,
+                                file.author.encrypted_id,
+                                getCoAuthorIds(file.coAuthors),
+                                file.firstReadingDate,
+                                file.secondReadingDate,
+                                file.thirdReadingDate,
+                                file.ordinanceNumber,
+                                file.finalTitle,
+                                file.enactmentDate,
+                                file.lceapprovalDate,
+                                file.transmittalDate,
+                                file.spslapprovalDate,
+                                file.postStatus,
+                                file.publishStatus
+                            )">
                                 <Pencil />
                             </Button>
+
                             <Button variant="destructive" class="ml-0 cursor-pointer">
                                 <Trash2 />
                             </Button>

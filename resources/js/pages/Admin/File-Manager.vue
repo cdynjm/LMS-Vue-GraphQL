@@ -216,7 +216,7 @@ const deleteCategory = () => {
                 <Dialog v-model:open="deleteDialog">
                     <DialogContent class="sm:max-w-[600px]">
                         <DialogHeader>
-                            <DialogTitle>Delete Official</DialogTitle>
+                            <DialogTitle>Delete Category</DialogTitle>
                             <DialogDescription>
                                 Are you sure you want to delete this category? This action cannot be undone.
                             </DialogDescription>
