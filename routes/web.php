@@ -14,9 +14,9 @@ Route::get('/storage', function () {
     Artisan::call('storage:link');
 });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     
