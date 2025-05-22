@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Categories;
+use App\Models\CoAuthor;
+use App\Models\Files;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\AESCipher;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Carbon;
 
 class FileController extends Controller
 {
@@ -17,5 +21,32 @@ class FileController extends Controller
         return Inertia::render('Admin/Files', [
             'id' => $request->id,
         ]);
+    }
+
+    public function createFile(Request $request)
+    {
+        $timestamp = Carbon::now()->format('YmdHis'); // Shorter format for filenames
+        $title = \Str::slug(\Str::limit($request->title, 70));
+        $extension = $request->file('file')->getClientOriginalExtension();
+        $filename = "{$title}...-{$timestamp}.{$extension}";
+        $transferfile = $request->file('file')->storeAs('files', $filename, 'public');
+
+        $file = Files::create([
+            'categoryID' => $this->aes->decrypt($request->categoryID),
+            'municipalStatus' => $request->municipalStatus,
+            'title' => $request->title,
+            'authorID' => $this->aes->decrypt($request->author),
+            'file' => $filename,
+        ]);
+
+        if ($request->coauthor != null) {
+            foreach ($request->coauthor as $coAuthor) {
+                CoAuthor::create([
+                    'fileID' => $file->id,
+                    'officialID' => $this->aes->decrypt($coAuthor),
+                ]);
+            }
+        }
+
     }
 }

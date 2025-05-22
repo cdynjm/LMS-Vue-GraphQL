@@ -6,17 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Controllers\AESCipher;
 
-class Categories extends Model
+class CoAuthor extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'categories';
+    protected $table = 'co_authors';
 
     protected $fillable = [
         'id',
-        'category',
-        'parentID',
+        'fileID',
+        'officialID',
     ];
+
+    public function official()
+    {
+        return $this->hasOne(Officials::class, 'id', 'officialID');
+    }
 
     public function getEncryptedIdAttribute(): string
     {

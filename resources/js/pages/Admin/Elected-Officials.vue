@@ -436,12 +436,12 @@ const handleUpdatePictureChange = async (event: Event) => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead class="w-[50px]">#</TableHead>
-                        <TableHead class="w-[300px]">Name</TableHead>
-                        <TableHead>Position</TableHead>
-                        <TableHead>Address</TableHead>
-                        <TableHead class="text-right">Status</TableHead>
-                        <TableHead class="text-right">Actions</TableHead>
+                        <TableHead class="w-[50px]"><small>#</small></TableHead>
+                        <TableHead class="w-[300px]"><small>Name</small></TableHead>
+                        <TableHead><small>Position</small></TableHead>
+                        <TableHead><small>Address</small></TableHead>
+                        <TableHead class="text-right"><small>Status</small></TableHead>
+                        <TableHead class="text-right"><small>Actions</small></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

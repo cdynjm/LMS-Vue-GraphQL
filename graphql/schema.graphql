@@ -7,7 +7,6 @@ type User {
   role: String!
   created_at: String!
   updated_at: String!
-  official: Officials @belongsTo
 }
 
 type Officials {
@@ -31,6 +30,43 @@ type Categories {
   created_at: String!
 }
 
+type Files {
+  id: ID!
+  encrypted_id: String!
+  categoryID: String
+  municipalStatus: String
+  provincialStatus: String
+  title: String
+  authorID: String
+  firstReadingDate: String
+  secondReadingDate: String
+  thirdReadingDate: String
+  ordinanceNumber: String
+  finalTitle: String
+  enactmentDate: String
+  lceapprovalDate: String
+  transmittalDate: String
+  spslapprovalDate: String
+  postStatus: String
+  publishStatus: String
+  file: String
+  created_at: String
+  updated_at: String
+  category: Categories @hasOne
+  coAuthors: [CoAuthor]
+  author: Officials @hasOne
+}
+
+type CoAuthor {
+  id: ID!
+  encrypted_id: String!
+  fileID: String
+  officialID: String
+  official: Officials @hasOne
+}
+
+
+
 # TYPES CONTAINERS FOR PAGES
 type Dashboard {
   adminsCount: Int!
@@ -43,8 +79,10 @@ type Category {
   categoriesList: [Categories!]!
 }
 
-type Files {
+type File {
   categoryName: Categories!
+  filesList: [Files!]!
+  authors: [Officials!]!
 }
 
 # ADMIN QUERY - PAGES
@@ -61,6 +99,6 @@ type Query @guard {
   categories: Category
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\FileManager")
 
-  files(id: String!): Files
-    @field(resolver: "App\\GraphQL\\Queries\\Admin\\Files")
+  files(id: String!): File
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\File")
 }

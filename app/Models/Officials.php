@@ -10,6 +10,8 @@ class Officials extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'officials';
+
     public $relation = ['user'];
 
     protected $fillable = [

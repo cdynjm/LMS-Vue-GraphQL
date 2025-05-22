@@ -39,6 +39,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::delete('/file-manager/delete', [FileManagerController::class, 'deleteCategory'])->name('delete.category');
 
         Route::get('/files/{id}', [FileController::class, 'index'])->name('admin.files');
+        Route::post('/files/create', [FileController::class, 'createFile'])->name('create.file');
 
     });
 });

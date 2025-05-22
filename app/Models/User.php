@@ -52,11 +52,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function official()
-    {
-        return $this->belongsTo(Officials::class, 'officialID', 'id');
-    }
-
     public function getEncryptedIdAttribute(): string
     {
         return app(AESCipher::class)->encrypt((string) $this->attributes['id']);

@@ -71,7 +71,7 @@ function createCategoryDialog() {
 }
 
 const createForm = useForm({
-    category: '',
+    category: '' as string,
 });
 
 const createCategory = () => {
@@ -98,8 +98,8 @@ function editCategoryDialog(id: string, category: string) {
 }
 
 const updateForm = useForm({
-    id: '',
-    category: '',
+    id: '' as string,
+    category: '' as string,
 });
 
 const updateCategory = () => {
@@ -234,11 +234,11 @@ const deleteCategory = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead class="w-[50px]">#</TableHead>
-                        <TableHead class="w-[300px]">Category</TableHead>
-                        <TableHead>No. of Files</TableHead>
-                        <TableHead>Creation Date</TableHead>
-                        <TableHead class="text-right">Actions</TableHead>
+                        <TableHead class="w-[50px]"><small>#</small></TableHead>
+                        <TableHead class="w-[300px]"><small>Category</small></TableHead>
+                        <TableHead><small>No. of Files</small></TableHead>
+                        <TableHead><small>Creation Date</small></TableHead>
+                        <TableHead class="text-right"><small>Actions</small></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

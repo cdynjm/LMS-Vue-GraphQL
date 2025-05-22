@@ -30,8 +30,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Eye } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
+import { Textarea } from '@/./components/ui/textarea/'
 
 const queryClient = useQueryClient();
 
@@ -54,6 +55,25 @@ const fetchFiles = async () => {
             encrypted_id
             category
         }
+        authors {
+            encrypted_id
+            name
+        }     
+        filesList {
+            encrypted_id
+            title
+            ordinanceNumber
+            municipalStatus
+            provincialStatus
+            author {
+                name
+            }  
+            coAuthors {
+                official {
+                    name
+                }
+            }
+        }
       }
     }
   `
@@ -71,24 +91,38 @@ const { isPending, error, data, isFetching, isLoading } = useQuery({
 
 const openDialog = ref(false);
 
-function createCategoryDialog() {
+function createFileDialog(id: string) {
+    createForm.categoryID = id;
     openDialog.value = true;
 }
 
 const createForm = useForm({
-    category: '',
+    categoryID: '' as string,
+    municipalStatus: '' as string,
+    title: '' as string,
+    author: '' as string,
+    coauthor: [] as string[],
+    file: null as any
 });
 
-const createCategory = () => {
-    createForm.post(route('create.category'), {
+const addCoAuthor = () => {
+    createForm.coauthor.push('');
+};
+
+const removeCoAuthor = (index: number) => {
+    createForm.coauthor.splice(index, 1);
+};
+
+const createFile = () => {
+    createForm.post(route('create.file'), {
         onSuccess: () => {
-            toast.success('Category created successfully');
+            toast.success('File created and uploaded successfully');
             createForm.reset();
             openDialog.value = false;
             queryClient.invalidateQueries({ queryKey: ['fetchFiles'] });
         },
         onError: () => {
-            toast.error('Error creating category');
+            toast.error('Error creating file');
             console.error('Error');
         },
     });
@@ -148,6 +182,21 @@ const deleteCategory = () => {
     });
 };
 
+const handleFileChange = async (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    const maxSizeInMB = 2;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    if (file.size > maxSizeInBytes) {
+        input.value = ''; // Clear input
+        toast.error('File too large. Please select a smaller file.');
+    }
+    createForm.file = file;
+    console.log('Selected file:', file);
+};
+
 </script>
 
 <template>
@@ -170,32 +219,109 @@ const deleteCategory = () => {
 
                 <Dialog v-model:open="openDialog">
                     <DialogTrigger as-child>
-                        <Button @click="createCategoryDialog" class="cursor-pointer">
+                        <Button @click="createFileDialog(data?.files.categoryName.encrypted_id)" class="cursor-pointer">
                             + New
                         </Button>
                     </DialogTrigger>
-                    <DialogContent class="sm:max-w-[600px]">
+                    <DialogContent class="sm:max-w-[800px] w-full">
                         <DialogHeader>
-                            <DialogTitle>Add Category</DialogTitle>
+                            <DialogTitle>Add New File</DialogTitle>
                             <DialogDescription>
-                                Create a new category for the files
+                                Create a new file for <b>{{ data?.files.categoryName.category }}</b>
                             </DialogDescription>
                         </DialogHeader>
 
-                        <form action="" @submit.prevent="createCategory">
-                            <div class="grid gap-4 py-4">
-                                <div class="grid grid-cols-4 items-center gap-4">
-                                    <Label class="text-right">Category</Label>
-                                    <Input v-model="createForm.category" placeholder="Category Name" class="col-span-3"
-                                        required />
+                        <form @submit.prevent="createFile" class="space-y-6">
+
+                            <div class="flex flex-col space-y-1">
+                                <Label class="text-sm font-medium text-gray-700">Municipal Status</Label>
+                                <Select v-model="createForm.municipalStatus" required>
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select a status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Status</SelectLabel>
+                                            <SelectItem value="1">Draft Ordinance</SelectItem>
+                                            <SelectItem value="2">Approved Ordinance</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div class="flex flex-col space-y-1">
+                                <Label class="text-sm font-medium text-gray-700">Title of Ordinance</Label>
+                                <Textarea v-model="createForm.title" class="w-full" />
+                            </div>
+
+                            <div class="flex flex-col space-y-1">
+                                <Label class="text-sm font-medium text-gray-700">Author</Label>
+                                <Select v-model="createForm.author" required>
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select an author" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectLabel>Authors</SelectLabel>
+                                        <SelectGroup v-for="author in data?.files.authors">
+                                            <SelectItem :value="author.encrypted_id">
+                                                {{ author.name }}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            <div class="flex flex-col space-y-1">
+                                <Label class="text-sm font-medium text-gray-700">Co Authors</Label>
+
+                                <div class="space-y-3">
+                                    <div v-for="(co, index) in createForm.coauthor" :key="index"
+                                        class="flex items-center gap-2">
+                                        <Select v-model="createForm.coauthor[index]" required>
+                                            <SelectTrigger class="w-full">
+                                                <SelectValue placeholder="Select an author" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectLabel>Authors</SelectLabel>
+                                                <SelectGroup>
+                                                    <SelectItem v-for="author in data?.files.authors"
+                                                        :key="author.encrypted_id" :value="author.encrypted_id">
+                                                        {{ author.name }}
+                                                    </SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+
+                                        <!-- Optional: Remove button -->
+                                        <button type="button" @click="removeCoAuthor(index)"
+                                            class="text-red-500 hover:text-red-700 text-sm cursor-pointer">
+                                            ✕
+                                        </button>
+                                    </div>
+
+                                    <!-- Add Co-Author Button -->
+                                    <button type="button" @click="addCoAuthor"
+                                        class="text-blue-500 hover:text-blue-700 text-sm cursor-pointer">
+                                        + Add
+                                    </button>
                                 </div>
                             </div>
+
+                            <div class="flex flex-col space-y-1">
+                                <Label class="text-sm font-medium text-gray-700">Upload a File</Label>
+                                <Input type="file" class="col-span-3" @change="handleFileChange" accept=".pdf"
+                                    required />
+                            </div>
+
+                            <!-- Footer -->
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer"
-                                    :disabled="createForm.processing">Save</Button>
+                                <Button type="submit" class="cursor-pointer" :disabled="createForm.processing">
+                                    Save
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
+
                 </Dialog>
 
                 <Dialog v-model:open="editDialog">
@@ -245,14 +371,17 @@ const deleteCategory = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead class="w-[50px]">#</TableHead>
-                        <TableHead class="w-[300px]">Category</TableHead>
-                        <TableHead>No. of Files</TableHead>
-                        <TableHead>Creation Date</TableHead>
-                        <TableHead class="text-right">Actions</TableHead>
+                        <TableHead class="w-[50px]"><small>#</small></TableHead>
+                        <TableHead class="w-[50px]"><small>File</small></TableHead>
+                        <TableHead class="w-[300px]"><small>Title</small></TableHead>
+                        <TableHead><small>Ordinance Number</small></TableHead>
+                        <TableHead><small>Author</small></TableHead>
+                        <TableHead><small>Mun. Status</small></TableHead>
+                        <TableHead><small>Prov. Status</small></TableHead>
+                        <TableHead class="text-right"><small>Actions</small></TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody v-if="!isLoading && !isFetching">
                     <TableRow v-if="isPending">
                         <TableCell colspan="10" class="text-center">
                             <small class="text-center text-green-500 flex items-center justify-center">
@@ -261,7 +390,63 @@ const deleteCategory = () => {
                             </small>
                         </TableCell>
                     </TableRow>
-
+                    <TableRow v-if="data?.files.filesList.length == 0">
+                        <TableCell colspan="10">
+                            <small class="text-center text-red-500 flex items-center justify-center">
+                                <MinusCircle class="mr-2 w-5" />
+                                No Data Found
+                            </small>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow v-for="(files, index) in data?.files.filesList" :key="files.encrypted_id">
+                        <TableCell>
+                            <small>{{ index + 1 }}</small>
+                        </TableCell>
+                        <TableCell>
+                            <LucideFileText class="w-5 h-5 text-green-500" />
+                        </TableCell>
+                        <TableCell class="pr-5">
+                            <div class="text-nowrap">{{ trimTitle(files.title) }}</div>
+                        </TableCell>
+                        <TableCell>
+                            <small class="text-nowrap">{{ files.ordinanceNumber != null ? files.ordinanceNumber : '-'}}</small>
+                        </TableCell>
+                        <TableCell class="pr-5">
+                            <div class="text-nowrap"><b>{{ files.author.name }}</b></div>
+                            <div><small class="text-blue-500">Co Authors:</small></div>
+                            <div v-for="coauthor in files.coAuthors">
+                                <small class="text-nowrap">{{ coauthor.official.name }}</small>
+                            </div>
+                        </TableCell>
+                        <TableCell>
+                            <small :class="files.municipalStatus == 1 ? 'text-wrap text-red-500' : 'text-wrap text-green-500'">{{ files.municipalStatus == 1 ? 'Draft' : 'Approved' }}</small>
+                        </TableCell>
+                        <TableCell>
+                            <small
+                                :class="files.provincialStatus === 1
+                                    ? 'text-wrap text-red-500'
+                                    : files.provincialStatus === 2
+                                    ? 'text-wrap text-green-500'
+                                    : 'text-wrap text-gray-500'"
+                            >
+                                {{ files.provincialStatus === null ? '-' : files.provincialStatus === 1 ? 'Draft' : 'Approved' }}
+                            </small>
+                        </TableCell>
+                        <TableCell class="text-right">
+                            <Button variant="link" 
+                                class="ml-0 cursor-pointer">
+                                <Eye />
+                            </Button>
+                            <Button variant="link" 
+                                class="ml-0 cursor-pointer">
+                                <Pencil />
+                            </Button>
+                            <Button variant="destructive"
+                                class="ml-0 cursor-pointer">
+                                <Trash2 />
+                            </Button>
+                        </TableCell>
+                    </TableRow>
 
                 </TableBody>
             </Table>
@@ -287,6 +472,11 @@ function formatDateTime(dateInput: string | Date): string {
     });
 
     return `${datePart} | ${timePart}`;
+}
+
+function trimTitle(title: string, limit: number = 50): string {
+    if (title.length <= limit) return title;
+    return title.slice(0, limit).trim() + '...';
 }
 
 </script>

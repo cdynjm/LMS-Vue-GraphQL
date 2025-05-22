@@ -243,11 +243,11 @@ const deleteAdmin = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead class="w-[50px]">#</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead class="text-right">Actions</TableHead>
+                        <TableHead class="w-[50px]"><small>#</small></TableHead>
+                        <TableHead><small>Name</small></TableHead>
+                        <TableHead><small>Email</small></TableHead>
+                        <TableHead><small>Role</small></TableHead>
+                        <TableHead class="text-right"><small>Actions</small></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
