@@ -118,7 +118,7 @@ const { data, isPending, isFetching, isLoading } = useQuery({
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-6 space-y-6">
 
-            <Card class="w-full" v-if="!isLoading && !isFetching">
+            <Card class="w-full shadow-none outline-none" v-if="!isLoading && !isFetching">
                 <CardHeader>
                     <CardTitle><span class="text-[13px] mr-2">Ordinance Number: </span>{{
                         data?.viewFile.file.ordinanceNumber != null ? data?.viewFile.file.ordinanceNumber : '--' }}
@@ -191,13 +191,15 @@ const { data, isPending, isFetching, isLoading } = useQuery({
 
                         <hr>
 
-                        <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2 mt-6">
+                        <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-3 mt-6">
                             <div>
                                 <FileBoxIcon class="w-5 h-5 text-green-500" />
                             </div>
-                            Final Title: <span>{{ data?.viewFile.file.finalTitle != null ? data?.viewFile.file.finalTitle : '-' }}</span>
+                            Final Title:
                         </div>
 
+                        <div class="text-gray-500 text-[13px]">{{ data?.viewFile.file.finalTitle != null ? data?.viewFile.file.finalTitle : '-' }}</div>
+                        <hr class="my-4">
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />

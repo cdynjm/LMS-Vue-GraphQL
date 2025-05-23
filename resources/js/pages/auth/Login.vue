@@ -7,7 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, Eye, EyeClosed } from 'lucide-vue-next';
+import { ref } from 'vue'; // Added for toggling password visibility
 
 defineProps<{
     status?: string;
@@ -19,6 +20,8 @@ const form = useForm({
     password: '',
     remember: false,
 });
+
+const showPassword = ref(false); // New reactive variable
 
 const submit = () => {
     form.post(route('login'), {
@@ -36,10 +39,11 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
-            <div class="grid gap-6">
+            <div class="grid gap-4">
                 <div class="grid gap-2">
-                    <Label for="email">Email address</Label>
+                    <Label for="email" class="text-[13px]">Email</Label>
                     <Input
+                        class="text-[13px]"
                         id="email"
                         type="email"
                         required
@@ -54,14 +58,25 @@ const submit = () => {
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="password">Password</Label>
-                        <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
-                            Forgot password?
-                        </TextLink>
+                        <Label for="password" class="text-[13px]">Password</Label>
+                        <button
+                            type="button"
+                            class="text-[13px] text-muted-foreground hover:underline flex items-center gap-1 cursor-pointer"
+                            @click="showPassword = !showPassword"
+                        >
+                            <span v-if="showPassword == false">
+                                <Eye class="w-[18px]"/>
+                            </span>
+                            <span v-if="showPassword == true">
+                                <EyeClosed class=" w-[18px]"/>
+                            </span>
+                            {{ showPassword ? 'Hide' : 'Show' }}
+                        </button>
                     </div>
                     <Input
+                        class="text-[13px]"
                         id="password"
-                        type="password"
+                        :type="showPassword ? 'text' : 'password'"
                         required
                         :tabindex="2"
                         autocomplete="current-password"
@@ -72,7 +87,7 @@ const submit = () => {
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <Label for="remember" class="flex items-center space-x-3">
+                    <Label for="remember" class="flex items-center space-x-1">
                         <Checkbox id="remember" v-model="form.remember" :tabindex="3" />
                         <span>Remember me</span>
                     </Label>
@@ -85,8 +100,7 @@ const submit = () => {
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                Don't have an account?
-                <TextLink :href="route('register')" :tabindex="5">Sign up</TextLink>
+                Legislative Management System
             </div>
         </form>
     </AuthBase>
