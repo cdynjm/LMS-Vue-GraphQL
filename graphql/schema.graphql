@@ -70,6 +70,11 @@ type CoAuthor {
 
 
 # TYPES CONTAINERS FOR PAGES
+
+type Welcome {
+  filesListPaginated: FilePagination!
+}
+
 type Dashboard {
   adminsCount: Int!
   officialsCount: Int!
@@ -125,4 +130,10 @@ type Query @guard {
 
   viewFile(id: String!): ViewFile
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\ViewFile")
+}
+
+#GUEST QUERY - WELCOME PAGE
+extend type Query {
+  welcome(page: Int, first: Int!): Welcome
+    @field(resolver: "App\\GraphQL\\Queries\\Guest\\Welcome")
 }
