@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\ElectedOfficialsController;
 use App\Http\Controllers\Admin\FileManagerController;
 use App\Http\Controllers\Admin\FileController;
+use App\Http\Controllers\Admin\ViewFileController;
 
 
 Route::get('/storage', function () {
@@ -40,10 +41,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
         Route::get('/files/{id}', [FileController::class, 'index'])->name('admin.files');
         Route::post('/files/create', [FileController::class, 'createFile'])->name('create.file');
+        Route::post('/files/update', [FileController::class, 'updateFile'])->name('update.file');
+        Route::delete('/files/delete', [FileController::class, 'deleteFile'])->name('delete.file');
         Route::post('/files/subcategory/create', [FileController::class, 'createSubcategory'])->name('create.subcategory');
         Route::patch('/files/subcategory/update', [FileController::class, 'updateSubcategory'])->name('update.subcategory');
         Route::delete('/files/subcategory/delete', [FileController::class, 'deleteSubcategory'])->name('delete.subcategory');
 
+        Route::get('/view-file/{id}', [ViewFileController::class, 'index'])->name('admin.view-file');
     });
 });
 

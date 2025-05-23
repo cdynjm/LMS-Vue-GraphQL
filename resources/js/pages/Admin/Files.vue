@@ -287,11 +287,11 @@ const updateForm = useForm({
 });
 
 const updateFile = () => {
-    createForm.post(route('create.file'), {
+    updateForm.post(route('update.file'), {
         onSuccess: () => {
-            toast.success('File created and uploaded successfully');
-            createForm.reset();
-            openDialog.value = false;
+            toast.success('File updated successfully');
+            updateForm.reset();
+            editDialog.value = false;
             queryClient.invalidateQueries({ queryKey: ['fetchFiles'] });
         },
         onError: () => {
@@ -328,6 +328,32 @@ function getCoAuthorIds(coAuthors: { official: { encrypted_id: string } }[]) {
     return coAuthors.map(co => co.official.encrypted_id);
 }
 
+
+const deleteDialog = ref(false);
+
+function deleteFileDialog(id: string) {
+    deleteForm.id = id;
+    deleteDialog.value = true;
+}
+
+const deleteForm = useForm({
+    id: '',
+});
+
+const deleteFile = () => {
+    deleteForm.delete(route('delete.file'), {
+        onSuccess: () => {
+            toast.success('File deleted successfully');
+            deleteForm.reset();
+            deleteDialog.value = false;
+            queryClient.invalidateQueries({ queryKey: ['fetchFiles'] });
+        },
+        onError: () => {
+            toast.error('Deletion Error');
+            console.error('Error');
+        },
+    });
+};
 
 
 const openCategoryDialog = ref(false);
@@ -615,7 +641,6 @@ const deleteCategory = () => {
 
                         <form @submit.prevent="updateFile" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                            <!-- Municipal Status -->
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Municipal Status</Label>
                                 <Select v-model="updateForm.municipalStatus" required>
@@ -629,27 +654,38 @@ const deleteCategory = () => {
                                 </Select>
                             </div>
 
-                            <!-- Provincial Status -->
+                           
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Provincial Status</Label>
-                                <Select v-model="updateForm.provincialStatus" required>
+                                <Select v-model="updateForm.provincialStatus">
                                     <SelectTrigger class="w-full">
                                         <SelectValue placeholder="Select a status" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="1">Draft Ordinance</SelectItem>
+                                        <SelectItem value="0">No Status Yet</SelectItem>
+                                        <SelectItem value="1">Disapproved Ordinance</SelectItem>
                                         <SelectItem value="2">Approved Ordinance</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
-                            <!-- Title -->
+                          
                             <div class="md:col-span-2">
                                 <Label class="text-sm font-medium text-gray-700">Title of Ordinance</Label>
-                                <Textarea v-model="updateForm.title" class="w-full" />
+                                <Textarea v-model="updateForm.title" class="w-full" required />
                             </div>
 
-                            <!-- Author -->
+                            <div class="md:col-span-2">
+                                <Label class="text-sm font-medium text-gray-700">Ordinance Number</Label>
+                                <Input v-model="updateForm.ordinanceNumber" type="text" class="w-full" />
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <Label class="text-sm font-medium text-gray-700">Final Title</Label>
+                                <Textarea v-model="updateForm.finalTitle" class="w-full" />
+                            </div>
+
+                          
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Author</Label>
                                 <Select v-model="updateForm.author" required>
@@ -692,19 +728,7 @@ const deleteCategory = () => {
                                 </div>
                             </div>
 
-                            <!-- Ordinance Number -->
-                            <div>
-                                <Label class="text-sm font-medium text-gray-700">Ordinance Number</Label>
-                                <Input v-model="updateForm.ordinanceNumber" type="text" class="w-full" />
-                            </div>
-
-                            <!-- Final Title -->
-                            <div>
-                                <Label class="text-sm font-medium text-gray-700">Final Title</Label>
-                                <Input v-model="updateForm.finalTitle" type="text" class="w-full" />
-                            </div>
-
-                            <!-- Dates -->
+                            
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">1st Reading Date</Label>
                                 <Input v-model="updateForm.firstReadingDate" type="date" />
@@ -734,25 +758,44 @@ const deleteCategory = () => {
                                 <Input v-model="updateForm.spslapprovalDate" type="date" />
                             </div>
 
-                            <!-- Post & Publish Status -->
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Post Status</Label>
-                                <Input v-model="updateForm.postStatus" />
+                                <Select v-model="updateForm.postStatus">
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select a status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Status</SelectLabel>
+                                            <SelectItem value="0">Not Yet</SelectItem>
+                                            <SelectItem value="1">Posted</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Publish Status</Label>
-                                <Input v-model="updateForm.publishStatus" />
+                                <Select v-model="updateForm.publishStatus">
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select a status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Status</SelectLabel>
+                                            <SelectItem value="0">Not Yet</SelectItem>
+                                            <SelectItem value="1">Published</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
                             </div>
 
-                            <!-- File Upload -->
                             <div class="md:col-span-2">
                                 <Label class="text-sm font-medium text-gray-700">Update File</Label>
-                                <Input type="file" @change="handleFileChange" accept=".pdf" />
+                                <Input type="file" @change="handleEditFileChange" accept=".pdf" />
                             </div>
 
-                            <!-- Footer -->
                             <div class="md:col-span-2 text-right">
-                                <Button type="submit" :disabled="updateForm.processing">
+                                <Button type="submit" class="cursor-pointer" :disabled="updateForm.processing">
                                     Save Changes
                                 </Button>
                             </div>
@@ -760,6 +803,26 @@ const deleteCategory = () => {
                         </form>
                     </DialogContent>
                 </Dialog>
+
+                <Dialog v-model:open="deleteDialog">
+                    <DialogContent class="sm:max-w-[600px]">
+                        <DialogHeader>
+                            <DialogTitle>Delete File</DialogTitle>
+                            <DialogDescription>
+                                Are you sure you want to delete this file? This action cannot be undone.
+                            </DialogDescription>
+                        </DialogHeader>
+
+                        <form action="" @submit.prevent="deleteFile">
+                            <DialogFooter>
+                                <Button type="submit" class="cursor-pointer" variant="destructive"
+                                    :disabled="deleteForm.processing">Delete</Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+
+
             </div>
 
             <Table>
@@ -878,7 +941,9 @@ const deleteCategory = () => {
                         </TableCell>
 
                         <TableCell class="pr-5">
-                            <div class="text-nowrap">{{ trimTitle(file.title) }}</div>
+                            <Link :href="route('admin.view-file', { id: file.encrypted_id })">
+                                <div class="text-wrap text-[13px]">{{ file.title }}</div>
+                            </Link>
                         </TableCell>
 
                         <TableCell>
@@ -902,20 +967,22 @@ const deleteCategory = () => {
                         </TableCell>
 
                         <TableCell>
-                            <small :class="file.provincialStatus === 1
+                            <small :class="file.provincialStatus == 1
                                 ? 'text-wrap text-red-500'
-                                : file.provincialStatus === 2
+                                : file.provincialStatus == 2
                                     ? 'text-wrap text-green-500'
                                     : 'text-wrap text-gray-500'">
-                                {{ file.provincialStatus === null ? '-' : file.provincialStatus === 1 ? 'Draft' :
+                                {{ file.provincialStatus == null ? '-' : file.provincialStatus == 1 ? 'Disapproved' :
                                     'Approved' }}
                             </small>
                         </TableCell>
 
                         <TableCell class="text-right">
-                            <Button variant="link" class="ml-0 cursor-pointer">
-                                <Eye />
-                            </Button>
+                            <Link :href="route('admin.view-file', { id: file.encrypted_id })">
+                                <Button variant="link" class="ml-0 cursor-pointer">
+                                    <Eye />
+                                </Button> 
+                            </Link>
                             <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
                                 file.encrypted_id,
                                 file.categoryID,
@@ -939,7 +1006,7 @@ const deleteCategory = () => {
                                 <Pencil />
                             </Button>
 
-                            <Button variant="destructive" class="ml-0 cursor-pointer">
+                            <Button variant="destructive" class="ml-0 cursor-pointer" @click="deleteFileDialog(file.encrypted_id)">
                                 <Trash2 />
                             </Button>
                         </TableCell>

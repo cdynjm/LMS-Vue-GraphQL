@@ -47,7 +47,7 @@ class Files extends Model
 
     public function coAuthors()
     {
-        return $this->hasMany(CoAuthor::class, 'fileID', 'id')->withTrashed();
+        return $this->hasMany(CoAuthor::class, 'fileID', 'id');
     }
 
     public function getEncryptedIdAttribute(): string

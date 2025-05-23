@@ -22,7 +22,7 @@ class Categories extends Model
 
     public function totalFiles()
     {
-        return $this->hasMany(Files::class, 'categoryID', 'id')->withTrashed();
+        return $this->hasMany(Files::class, 'categoryID', 'id');
     }
 
     public function getEncryptedIdAttribute(): string

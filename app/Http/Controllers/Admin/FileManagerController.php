@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Categories;
+use App\Models\Files;
+use App\Models\CoAuthor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -39,7 +41,10 @@ class FileManagerController extends Controller
     }
 
     public function deleteCategory(Request $request) {
-        $category = Categories::where('id', $this->aes->decrypt($request->id))->delete();
+        Categories::where('id', $this->aes->decrypt($request->id))->delete();
+        Categories::where('parentID', $this->aes->decrypt($request->id))->delete();
+        Files::where('categoryID', $this->aes->decrypt($request->id))->delete();
+        CoAuthor::where('categoryID', $this->aes->decrypt($request->id))->delete();
     }
     
 }

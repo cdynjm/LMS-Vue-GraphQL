@@ -16,6 +16,7 @@ class CoAuthor extends Model
         'id',
         'fileID',
         'officialID',
+        'categoryID'
     ];
 
     public function official()

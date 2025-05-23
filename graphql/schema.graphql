@@ -101,6 +101,10 @@ type PaginatorInfo {
   hasMorePages: Boolean!
 }
 
+type ViewFile {
+  file: Files
+}
+
 
 # ADMIN QUERY - PAGES
 type Query @guard {
@@ -118,4 +122,7 @@ type Query @guard {
 
   files(id: String!, page: Int, first: Int!): File
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\File")
+
+  viewFile(id: String!): ViewFile
+    @field(resolver: "App\\GraphQL\\Queries\\Admin\\ViewFile")
 }
