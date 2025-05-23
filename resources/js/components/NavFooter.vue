@@ -10,21 +10,21 @@ import { Link } from '@inertiajs/vue3';
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <Link :href="'/'" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                    <img src="/app-logo.jpg" class="h-11 w-auto" alt="" />
+                    <img src="/app-logo.jpg" class="h-10 w-auto" alt="" />
 
                     <div class="flex flex-col">
-                        <span class="text-[16px] font-semibold whitespace-nowrap dark:text-white">Legislative MS</span>
-                        <span class="text-[13px] text-gray-500">Legislative Management System</span>
+                        <span class="text-[14px] font-semibold whitespace-nowrap dark:text-white">Legislative MS</span>
+                        <span class="text-[12px] text-gray-500">Legislative Management System</span>
                     </div>
                 </Link>
 
                 <ul
                     class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                     <li>
-                        <a href="#" class="hover:underline me-4 md:me-6">About</a>
+                        <a href="https://www.philatlas.com/visayas/r08/southern-leyte/bontoc.html" class="hover:underline me-4 md:me-6">About</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
+                        <a href="https://en.wikipedia.org/wiki/Bontoc,_Southern_Leyte" class="hover:underline me-4 md:me-6">Wikipedia</a>
                     </li>
                     <li>
                         <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
