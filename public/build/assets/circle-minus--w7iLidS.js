@@ -1,4 +1,4 @@
-import{c}from"./AppLogoIcon.vue_vue_type_script_setup_true_lang-DUC_AltH.js";/**
+import{c}from"./index-DcrgW_Wg.js";/**
  * @license lucide-vue-next v0.468.0 - ISC
  *
  * This source code is licensed under the ISC license.
