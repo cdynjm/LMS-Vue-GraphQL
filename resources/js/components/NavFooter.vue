@@ -3,42 +3,76 @@ import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, Side
 import { type NavItem } from '@/types';
 import { Folder } from 'lucide-vue-next';
 import { Link } from '@inertiajs/vue3';
+import { MessageCircle, Globe2Icon } from 'lucide-vue-next';
 </script>
 
 <template>
-    <footer class="m-4">
-        <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <Link :href="'/'" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                    <img src="/app-logo.jpg" class="h-10 w-auto" alt="" />
+    <footer class="m-4 mb-8">
+        <div class="w-full">
+            <div class="grid lg:gap-20 gap-4 md:grid-cols-1 lg:grid-cols-2 items-center">
 
-                    <div class="flex flex-col">
+                <!-- Right Section: Jemuel Cadayona -->
+                <div class="flex flex-col items-center lg:flex-row lg:justify-end lg:items-center gap-4">
+                    <!-- Image -->
+                    <img src="/help-desk (1).png" class="h-40 w-40 object-contain" alt="Help Desk" />
+
+                    <!-- Labels -->
+                    <div class="flex flex-col text-center lg:text-left">
+                        <small class="text-gray-700 dark:text-gray-300">
+                            Need technical assistance? <a href="https://www.facebook.com/jem.cdyn3" target="_blank" class="text-green-600">Chat <MessageCircle class="inline-block h-4 w-4 mb-1" /></a>
+                        </small>
+                        <hr class="my-1 hidden lg:block">
+                        <small class="font-semibold text-black dark:text-white">JEMUEL CADAYONA</small>
+                        <small class="text-gray-600 dark:text-gray-400">Software Engineer</small>
+                        <small class="text-blue-400 dark:text-green-400 underline">
+                            <a href="https://jemcdyn.vercel.app/" target="_blank" class="flex items-center gap-1">
+                                <Globe2Icon class="w-5 h-auto" /> https://jemcdyn.vercel.app/
+                            </a></small>
+                    </div>
+                </div>
+
+                <hr class="lg:hidden" />
+                <!-- Left 
+      Section: Logo + Labels + Affiliates -->
+                <div class="flex flex-col items-center lg:items-start gap-4">
+                    <!-- Legislative Logo + Labels -->
+                    <Link :href="'/'"
+                        class="flex flex-col items-center lg:flex-row lg:items-center lg:space-x-3 rtl:space-x-reverse">
+                    <img src="/app-logo.jpg" class="h-10 w-10" alt="App Logo" />
+                    <div class="flex flex-col text-center lg:text-left mt-2 lg:mt-0">
                         <span class="text-[14px] font-semibold whitespace-nowrap dark:text-white">Legislative MS</span>
                         <span class="text-[12px] text-gray-500">Legislative Management System</span>
                     </div>
-                </Link>
+                    </Link>
 
-                <ul
-                    class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                    <li>
-                        <a href="https://www.philatlas.com/visayas/r08/southern-leyte/bontoc.html" class="hover:underline me-4 md:me-6">About</a>
-                    </li>
-                    <li>
-                        <a href="https://en.wikipedia.org/wiki/Bontoc,_Southern_Leyte" class="hover:underline me-4 md:me-6">Wikipedia</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:underline">Contact</a>
-                    </li>
-                </ul>
+                    <!-- Logos -->
+                    <div class="flex gap-4 mt-0">
+                        <a href="https://southernleytestateu.edu.ph/index.php/en/" target="_blank"
+                            class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                            <img src="/logo-slsu.png" class="h-10 w-10 mb-1" alt="SLSU" />
+                            <small>SLSU</small>
+                        </a>
+                        <a href="https://www.facebook.com/ictsorg" target="_blank"
+                            class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                            <img src="/logo-ccsit.jpg" class="h-10 w-10 mb-1" alt="FCSIT" />
+                            <small>FCSIT</small>
+                        </a>
+                        <a href="https://jemcdyn.vercel.app/" target="_blank"
+                            class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                            <img src="/jemcdyn.png" class="h-10 w-10 outline p-1 outline-gray-400 rounded-[50%] mb-1" alt="FCSIT" />
+                            <small>JEM, dev.</small>
+                        </a>
+                    </div>
+                </div>
+
+
             </div>
 
-            <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© {{ new Date().getFullYear() }} 
-            <Link :href="'/'" class="hover:underline">Legislative Management System</Link></span>
         </div>
     </footer>
+
+
+
 
 
 </template>

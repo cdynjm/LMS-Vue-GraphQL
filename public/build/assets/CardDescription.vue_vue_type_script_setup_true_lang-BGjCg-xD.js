@@ -1,0 +1,1 @@
+import{a as o}from"./index-HvcNzELA.js";import{d as t,c as r,o as n,n as c,u as p,y as l}from"./app-DYaLtrJX.js";const u=t({__name:"CardDescription",props:{class:{}},setup(s){const e=s;return(a,m)=>(n(),r("p",{"data-slot":"card-description",class:c(p(o)("text-muted-foreground text-sm",e.class))},[l(a.$slots,"default")],2))}});export{u as _};
