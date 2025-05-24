@@ -88,27 +88,7 @@ const submit = () => {
                 <div class="grid grid-col-1 gap-4 items-center">
 
                     <!-- Right Section: Jemuel Cadayona -->
-                    <div class="flex flex-col items-center gap-4">
-
-                        <!-- Labels -->
-                        <div class="flex flex-col text-center">
-                            <small class="text-gray-700 dark:text-gray-300">
-                                Need technical assistance? <a href="https://www.facebook.com/jem.cdyn3" target="_blank"
-                                    class="text-green-600">Chat
-                                    <MessageCircle class="inline-block h-4 w-4 mb-1" />
-                                </a>
-                            </small>
-                            <hr class="my-1 hidden lg:block">
-                            <small class="font-semibold text-black dark:text-white">JEMUEL CADAYONA</small>
-                            <small class="text-gray-600 dark:text-gray-400">Software Engineer</small>
-                            <small class="text-blue-400 dark:text-green-400 underline">
-                                <a href="https://jemcdyn.vercel.app/" target="_blank" class="flex items-center gap-1">
-                                    <Globe2Icon class="w-5 h-auto" /> https://jemcdyn.vercel.app/
-                                </a></small>
-                        </div>
-                    </div>
-
-                    <hr class="lg:hidden" />
+                    
     
                     <div class="flex flex-col items-center gap-4">
                         <!-- Legislative Logo + Labels -->
@@ -141,6 +121,28 @@ const submit = () => {
                             </a>
                         </div>
                     </div>
+
+                    <div class="flex flex-col items-center gap-4">
+
+                        <!-- Labels -->
+                        <div class="flex flex-col text-center">
+                            <small class="text-gray-700 dark:text-gray-300">
+                                Need technical assistance? <a href="https://www.facebook.com/jem.cdyn3" target="_blank"
+                                    class="text-green-600">Chat
+                                    <MessageCircle class="inline-block h-4 w-4 mb-1" />
+                                </a>
+                            </small>
+                            <hr class="my-1 hidden lg:block">
+                            <small class="font-semibold text-black dark:text-white">JEMUEL CADAYONA</small>
+                            <small class="text-gray-600 dark:text-gray-400">Software Engineer</small>
+                            <small class="text-blue-400 dark:text-green-400 underline">
+                                <a href="https://jemcdyn.vercel.app/" target="_blank" class="flex items-center gap-1">
+                                    <Globe2Icon class="w-5 h-auto" /> https://jemcdyn.vercel.app/
+                                </a></small>
+                        </div>
+                    </div>
+
+                    <hr class="lg:hidden" />
 
 
                 </div>
