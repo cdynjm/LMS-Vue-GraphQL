@@ -268,7 +268,7 @@ const deleteCategory = () => {
                             <div class="flex items-center space-x-3">
                                 <div>
                                     <Folder
-                                        class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-muted-foreground" />
+                                        class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500" fill="currentColor" />
                                 </div>
                                 <div>
                                     <div class="font-medium">{{ category.category }}</div>

@@ -7,7 +7,7 @@ import { MessageCircle, Globe2Icon } from 'lucide-vue-next';
 </script>
 
 <template>
-    <footer class="m-4 mb-8">
+    <footer class="m-4">
         <div class="w-full">
             <div class="grid lg:gap-20 gap-4 md:grid-cols-1 lg:grid-cols-2 items-center">
 

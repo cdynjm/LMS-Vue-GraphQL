@@ -20,8 +20,8 @@ const page = usePage<SharedData>();
                     :tooltip="item.title"
                 >
                     <Link :href="item.href">
-                        <component :is="item.icon" />
-                        <span>{{ item.title }}</span>
+                        <component :is="item.icon" class="text-gray-500" fill="currentColor" />
+                        <span class="text-[13px]">{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>

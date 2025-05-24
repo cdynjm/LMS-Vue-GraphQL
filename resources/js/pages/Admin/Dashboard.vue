@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/vue3';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Users, Folder, FileArchive, UserCheck } from 'lucide-vue-next'
+import { Users, Folder, File, UserCheck } from 'lucide-vue-next'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -47,7 +47,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-green-50 py-2">
                     <CardTitle>Admins</CardTitle>
-                    <Users class="w-5 h-5 text-muted-foreground" />
+                    <Users class="w-5 h-5 text-muted-foreground" fill="currentColor" />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.adminsCount }}</p>
@@ -57,7 +57,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-blue-50 py-2">
                     <CardTitle>Categories</CardTitle>
-                    <Folder class="w-5 h-5 text-muted-foreground" />
+                    <Folder class="w-5 h-5 text-muted-foreground" fill="currentColor" />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.categoriesCount }}</p>
@@ -67,7 +67,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-red-50 py-2">
                     <CardTitle>Files</CardTitle>
-                    <FileArchive class="w-5 h-5 text-muted-foreground" />
+                    <File class="w-5 h-5 text-muted-foreground" fill="currentColor" />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.filesCount }}</p>
@@ -77,7 +77,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-orange-50 py-2">
                     <CardTitle>Officials</CardTitle>
-                    <UserCheck class="w-5 h-5 text-muted-foreground" />
+                    <UserCheck class="w-5 h-5 text-muted-foreground" fill="currentColor" />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.officialsCount }}</p>
