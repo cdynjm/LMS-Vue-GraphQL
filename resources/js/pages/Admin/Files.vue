@@ -35,18 +35,18 @@ import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Eye, 
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 
+const props = defineProps<{
+    id: string
+}>();
+
 const queryClient = useQueryClient();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Files',
-        href: '/admin/files',
+        href: '/admin/files/' + props.id,
     },
 ];
-
-const props = defineProps<{
-    id: string
-}>();
 
 const currentPage = ref(1);
 const searchQuery = ref('');
@@ -562,7 +562,7 @@ const deleteCategory = () => {
 
                             <div class="flex flex-col space-y-1">
                                 <Label class="text-sm font-medium text-gray-700">Title of Ordinance</Label>
-                                <Textarea v-model="createForm.title" class="w-full" />
+                                <Textarea v-model="createForm.title" class="w-full" required />
                             </div>
 
                             <div class="flex flex-col space-y-1">

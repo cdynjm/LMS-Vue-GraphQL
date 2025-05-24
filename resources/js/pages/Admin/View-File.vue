@@ -45,18 +45,18 @@ import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 import { CalendarCell } from 'reka-ui';
 
+const props = defineProps<{
+    id: string
+}>();
+
 const queryClient = useQueryClient();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'View File',
-        href: '/admin/view-file',
+        href: '/admin/view-file/' + props.id,
     },
 ];
-
-const props = defineProps<{
-    id: string
-}>();
 
 const fetchViewedFile = async () => {
     const query = `
