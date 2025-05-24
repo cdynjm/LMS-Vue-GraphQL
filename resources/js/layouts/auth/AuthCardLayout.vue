@@ -13,14 +13,14 @@ defineProps<{
     <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
         <div class="flex w-full max-w-md flex-col gap-6">
             <div class="flex flex-col gap-6">
-                <Card class="rounded-xl">
+                <Card class="rounded-xl shadow-none">
                     <CardHeader class="px-10 pb-0 pt-8 text-center">
                         <Link :href="route('home')"
                             class="flex items-center justify-center gap-2 self-center font-medium">
-                        <div class="flex h-12 w-12 items-center justify-center">
+                        <div class="flex h-10 w-10 items-center justify-center">
                             <AppLogoIcon class="size-9 fill-current text-black dark:text-white" />
                         </div>
-                        <span class="text-lg font-semibold text-black dark:text-white">Legislative MS</span>
+                        <span class="font-semibold text-black dark:text-white text-[14px]">Legislative MS</span>
                         </Link>
                         <CardTitle class="mt-4 text-[14px]">{{ title }}</CardTitle>
                         <CardDescription class="text-[12px]">
