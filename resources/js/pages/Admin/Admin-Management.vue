@@ -21,6 +21,7 @@ import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 import Skeleton from '@/components/Skeleton.vue';
+import { LoaderCircle } from 'lucide-vue-next';
 
 const queryClient = useQueryClient()
 
@@ -183,7 +184,10 @@ const deleteAdmin = () => {
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer" :disabled="createForm.processing">Save</Button>
+                                <Button type="submit" class="cursor-pointer" :disabled="createForm.processing">
+                                <LoaderCircle v-if="createForm.processing" class="h-4 w-4 animate-spin" />
+                                Save
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -217,7 +221,9 @@ const deleteAdmin = () => {
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer" :disabled="updateForm.processing">Save</Button>
+                                <Button type="submit" class="cursor-pointer" :disabled="updateForm.processing">
+                                <LoaderCircle v-if="updateForm.processing" class="h-4 w-4 animate-spin" />
+                                Save</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -234,7 +240,9 @@ const deleteAdmin = () => {
 
                         <form action="" @submit.prevent="deleteAdmin">
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer" variant="destructive" :disabled="deleteForm.processing">Delete</Button>
+                                <Button type="submit" class="cursor-pointer" variant="destructive" :disabled="deleteForm.processing">
+                                <LoaderCircle v-if="deleteForm.processing" class="h-4 w-4 animate-spin" />
+                                Delete</Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
