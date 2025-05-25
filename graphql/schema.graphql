@@ -80,6 +80,7 @@ type Dashboard {
   officialsCount: Int
   categoriesCount: Int
   filesCount: Int
+  files: [Files]
 }
 
 type Category {

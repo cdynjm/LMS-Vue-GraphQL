@@ -21,7 +21,7 @@ final readonly class Welcome
         $perPage = $args['first'];
 
         $paginator = Files::with((new Files)->relation)
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate($perPage, ['*'], 'page', $page);
 
         return [

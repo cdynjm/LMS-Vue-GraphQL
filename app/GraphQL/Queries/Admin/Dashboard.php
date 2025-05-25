@@ -23,6 +23,7 @@ final readonly class Dashboard
             'officialsCount' => Officials::where('status', 1)->count(),
             'categoriesCount' => Categories::count(),
             'filesCount' => Files::count(),
+            'files' => Files::limit(10)->orderBy('updated_at', 'DESC')->get()
         ];
     }
 
