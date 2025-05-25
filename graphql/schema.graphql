@@ -76,10 +76,10 @@ type Welcome {
 }
 
 type Dashboard {
-  adminsCount: Int!
-  officialsCount: Int!
-  categoriesCount: Int!
-  filesCount: Int!
+  adminsCount: Int
+  officialsCount: Int
+  categoriesCount: Int
+  filesCount: Int
 }
 
 type Category {
@@ -110,6 +110,11 @@ type ViewFile {
   file: Files
 }
 
+#GUEST QUERY - WELCOME PAGE
+extend type Query {
+  welcome(page: Int, first: Int!): Welcome
+    @field(resolver: "App\\GraphQL\\Queries\\Guest\\Welcome")
+}
 
 # ADMIN QUERY - PAGES
 type Query @guard {
@@ -132,8 +137,20 @@ type Query @guard {
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\ViewFile")
 }
 
-#GUEST QUERY - WELCOME PAGE
-extend type Query {
-  welcome(page: Int, first: Int!): Welcome
-    @field(resolver: "App\\GraphQL\\Queries\\Guest\\Welcome")
+#USER QUERY - PAGES
+extend type Query @guard {
+  userdashboard: Dashboard 
+    @field(resolver: "App\\GraphQL\\Queries\\User\\Dashboard")
+
+  userofficials: [Officials!]!
+    @field(resolver: "App\\GraphQL\\Queries\\User\\ElectedOfficials")
+  
+  usercategories: Category
+    @field(resolver: "App\\GraphQL\\Queries\\User\\FileManager")
+
+  userfiles(id: String!, page: Int, first: Int!): File
+    @field(resolver: "App\\GraphQL\\Queries\\User\\File")
+
+  userviewFile(id: String!): ViewFile
+    @field(resolver: "App\\GraphQL\\Queries\\User\\ViewFile")
 }

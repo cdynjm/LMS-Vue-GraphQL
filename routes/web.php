@@ -2,19 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Guest\HomeController;
+
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\ElectedOfficialsController;
 use App\Http\Controllers\Admin\FileManagerController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\ViewFileController;
 
-
 Route::get('/storage', function () {
     Artisan::call('storage:link');
 });
-
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -51,12 +50,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'user'])->group(function () {
-    Route::prefix('user')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
-    });
-});
-
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+require __DIR__.'/user.php';
