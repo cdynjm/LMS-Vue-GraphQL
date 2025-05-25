@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, Link } from '@inertiajs/vue3';
+import { Head, useForm, Link, router } from '@inertiajs/vue3';
 import {
     Dialog,
     DialogContent,
@@ -144,6 +144,10 @@ const deleteCategory = () => {
     });
 };
 
+function navigateTo(name: string, params: Record<string, any> = {}) {
+  router.get(route(name, params));
+}
+
 </script>
 
 <template>
@@ -264,7 +268,7 @@ const deleteCategory = () => {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <Link :href="route('admin.files', { id: category.encrypted_id })">
+                            <a href="#" @click="navigateTo('admin.files', {id: category.encrypted_id})">
                             <div class="flex items-center space-x-3">
                                 <div>
                                     <Folder
@@ -274,7 +278,7 @@ const deleteCategory = () => {
                                     <div class="font-medium">{{ category.category }}</div>
                                 </div>
                             </div>
-                            </Link>
+                            </a>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>

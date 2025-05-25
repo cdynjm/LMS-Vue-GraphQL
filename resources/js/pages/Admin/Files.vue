@@ -3,7 +3,7 @@ import { ref, computed, watchEffect } from 'vue';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, useForm, Link } from '@inertiajs/vue3';
+import { Head, useForm, Link, router } from '@inertiajs/vue3';
 import {
     Dialog,
     DialogContent,
@@ -117,7 +117,7 @@ const fetchFiles = async () => {
       }
     }
   `;
-
+    
     const response = await axios.post('/graphql', {
         query,
         variables: {
@@ -436,6 +436,10 @@ const deleteCategory = () => {
         },
     });
 };
+
+function navigateTo(name: string, params: Record<string, any> = {}) {
+  router.get(route(name, params));
+}
 
 </script>
 
@@ -857,7 +861,7 @@ const deleteCategory = () => {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <Link :href="route('admin.files', { id: category.encrypted_id })">
+                            <a href="#" @click="navigateTo('admin.files', {id: category.encrypted_id})">
                             <div class="flex items-center space-x-3">
                                 <div>
                                     <Folder
@@ -867,7 +871,7 @@ const deleteCategory = () => {
                                     <div class="font-medium">{{ category.category }}</div>
                                 </div>
                             </div>
-                            </Link>
+                            </a>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>
@@ -941,9 +945,9 @@ const deleteCategory = () => {
                         </TableCell>
 
                         <TableCell class="pr-5">
-                            <Link :href="route('admin.view-file', { id: file.encrypted_id })">
+                            <a href="#" @click="navigateTo('admin.view-file', {id: file.encrypted_id})">
                                 <div class="text-wrap text-[13px]">{{ file.title }}</div>
-                            </Link>
+                            </a>
                         </TableCell>
 
                         <TableCell>
@@ -978,11 +982,11 @@ const deleteCategory = () => {
                         </TableCell>
 
                         <TableCell class="text-right">
-                            <Link :href="route('admin.view-file', { id: file.encrypted_id })">
+                            <a href="#" @click="navigateTo('admin.view-file', {id: file.encrypted_id})">
                                 <Button variant="link" class="ml-0 cursor-pointer">
                                     <Eye />
                                 </Button> 
-                            </Link>
+                            </a>
                             <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
                                 file.encrypted_id,
                                 file.categoryID,

@@ -11,22 +11,22 @@ import AppLogo from './AppLogo.vue';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/admin/dashboard',
+        href: 'admin.dashboard',
         icon: LayoutGrid,
     },
     {
         title: 'Admin Management',
-        href: '/admin/admin-management',
+        href: 'admin.management',
         icon: User2,
     },
     {
         title: 'Elected Officials',
-        href: '/admin/elected-officials',
+        href: 'admin.elected-officials',
         icon: UserCheck,
     },
     {
         title: 'File Manager',
-        href: '/admin/file-manager',
+        href: 'admin.file-manager',
         icon: Folder,
     },
 
