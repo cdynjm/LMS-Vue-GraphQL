@@ -25,7 +25,7 @@ function navigateTo(routeName: string) {
           :tooltip="item.title"
         >
           <a @click.prevent="navigateTo(item.href)" href="#">
-            <component :is="item.icon" class="text-gray-500" fill="currentColor" />
+            <component :is="item.icon" class="text-gray-500" />
             <span class="text-[13px]">{{ item.title }}</span>
           </a>
         </SidebarMenuButton>

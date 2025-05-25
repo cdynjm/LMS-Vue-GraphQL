@@ -47,7 +47,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-green-50 py-2">
                     <CardTitle>Admins</CardTitle>
-                    <Users class="w-5 h-5 text-muted-foreground" fill="currentColor" />
+                    <Users class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.adminsCount }}</p>
@@ -57,7 +57,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-blue-50 py-2">
                     <CardTitle>Categories</CardTitle>
-                    <Folder class="w-5 h-5 text-muted-foreground" fill="currentColor" />
+                    <Folder class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.categoriesCount }}</p>
@@ -67,7 +67,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-red-50 py-2">
                     <CardTitle>Files</CardTitle>
-                    <File class="w-5 h-5 text-muted-foreground" fill="currentColor" />
+                    <File class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.filesCount }}</p>
@@ -77,7 +77,7 @@ const { isPending, data, error, isFetching } = useQuery({
             <Card class="pt-0">
                 <CardHeader class="flex items-center justify-between bg-orange-50 py-2">
                     <CardTitle>Officials</CardTitle>
-                    <UserCheck class="w-5 h-5 text-muted-foreground" fill="currentColor" />
+                    <UserCheck class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
                 <CardContent>
                     <p class="text-2xl font-bold">{{ data?.dashboard.officialsCount }}</p>
