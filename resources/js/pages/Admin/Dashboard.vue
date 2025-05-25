@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Users, Folder, File, UserCheck } from 'lucide-vue-next'
+import SkeletonCard from '@/components/SkeletonCard.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -49,7 +50,8 @@ const { isPending, data, error, isFetching } = useQuery({
                     <CardTitle>Admins</CardTitle>
                     <Users class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
-                <CardContent>
+                <CardContent v-if="isFetching"><SkeletonCard /></CardContent>
+                <CardContent v-else>
                     <p class="text-2xl font-bold">{{ data?.dashboard.adminsCount }}</p>
                 </CardContent>
             </Card>
@@ -59,7 +61,8 @@ const { isPending, data, error, isFetching } = useQuery({
                     <CardTitle>Categories</CardTitle>
                     <Folder class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
-                <CardContent>
+                <CardContent v-if="isFetching"><SkeletonCard /></CardContent>
+                <CardContent v-else>
                     <p class="text-2xl font-bold">{{ data?.dashboard.categoriesCount }}</p>
                 </CardContent>
             </Card>
@@ -69,7 +72,8 @@ const { isPending, data, error, isFetching } = useQuery({
                     <CardTitle>Files</CardTitle>
                     <File class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
-                <CardContent>
+                <CardContent v-if="isFetching"><SkeletonCard /></CardContent>
+                <CardContent v-else>
                     <p class="text-2xl font-bold">{{ data?.dashboard.filesCount }}</p>
                 </CardContent>
             </Card>
@@ -79,7 +83,8 @@ const { isPending, data, error, isFetching } = useQuery({
                     <CardTitle>Officials</CardTitle>
                     <UserCheck class="w-5 h-5 text-muted-foreground"  />
                 </CardHeader>
-                <CardContent>
+                <CardContent v-if="isFetching"><SkeletonCard /></CardContent>
+                <CardContent v-else>
                     <p class="text-2xl font-bold">{{ data?.dashboard.officialsCount }}</p>
                 </CardContent>
             </Card>

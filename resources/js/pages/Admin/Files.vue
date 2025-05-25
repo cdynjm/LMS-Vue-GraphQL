@@ -34,6 +34,7 @@ import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Eye, ArrowRightCircle, ArrowLeftCircle, ArrowRight, ArrowLeft } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
+import Skeleton from '@/components/Skeleton.vue';
 
 const props = defineProps<{
     id: string
@@ -117,7 +118,7 @@ const fetchFiles = async () => {
       }
     }
   `;
-    
+
     const response = await axios.post('/graphql', {
         query,
         variables: {
@@ -438,7 +439,7 @@ const deleteCategory = () => {
 };
 
 function navigateTo(name: string, params: Record<string, any> = {}) {
-  router.get(route(name, params));
+    router.get(route(name, params));
 }
 
 </script>
@@ -456,7 +457,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                 <div>
                     <div v-if="!isLoading && !isFetching">
                         <h6 class="flex text-md font-bold items-center">
-                            <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500" fill="currentColor" />
+                            <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                                fill="currentColor" />
                             {{ data?.files.categoryName.category }}
                         </h6>
                     </div>
@@ -658,7 +660,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 </Select>
                             </div>
 
-                           
+
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Provincial Status</Label>
                                 <Select v-model="updateForm.provincialStatus">
@@ -673,7 +675,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 </Select>
                             </div>
 
-                          
+
                             <div class="md:col-span-2">
                                 <Label class="text-sm font-medium text-gray-700">Title of Ordinance</Label>
                                 <Textarea v-model="updateForm.title" class="w-full" required />
@@ -689,7 +691,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 <Textarea v-model="updateForm.finalTitle" class="w-full" />
                             </div>
 
-                          
+
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">Author</Label>
                                 <Select v-model="updateForm.author" required>
@@ -726,13 +728,14 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                             class="text-red-500 cursor-pointer">✕</button>
                                     </div>
 
-                                    <button type="button" @click="addEditCoAuthor" class="text-blue-500 text-sm cursor-pointer">
+                                    <button type="button" @click="addEditCoAuthor"
+                                        class="text-blue-500 text-sm cursor-pointer">
                                         + Add
                                     </button>
                                 </div>
                             </div>
 
-                            
+
                             <div>
                                 <Label class="text-sm font-medium text-gray-700">1st Reading Date</Label>
                                 <Input v-model="updateForm.firstReadingDate" type="date" />
@@ -839,16 +842,13 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         <TableHead class="text-right"><small>Actions</small></TableHead>
                     </TableRow>
                 </TableHeader>
-                <TableBody v-if="!isLoading && !isFetching">
-                    <TableRow v-if="isPending">
+                <TableBody>
+                    <TableRow v-if="isFetching">
                         <TableCell colspan="10" class="text-center">
-                            <small class="text-center text-green-500 flex items-center justify-center">
-                                <Loader2Icon class="mr-2 w-5" />
-                                Loading...
-                            </small>
+                            <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-if="data?.files.subCategoriesList.length == 0">
+                    <TableRow v-else-if="data?.files.subCategoriesList.length == 0">
                         <TableCell colspan="5">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />
@@ -856,21 +856,21 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             </small>
                         </TableCell>
                     </TableRow>
-                    <TableRow v-for="(category, index) in data?.files.subCategoriesList" :key="category.id">
+                    <TableRow v-else v-for="(category, index) in data?.files.subCategoriesList" :key="category.id">
                         <TableCell>
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <a href="#" @click="navigateTo('admin.files', {id: category.encrypted_id})">
-                            <div class="flex items-center space-x-3">
-                                <div>
-                                    <Folder
-                                        class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500" fill="currentColor" />
+                            <a href="#" @click="navigateTo('admin.files', { id: category.encrypted_id })">
+                                <div class="flex items-center space-x-3">
+                                    <div>
+                                        <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                                            fill="currentColor" />
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">{{ category.category }}</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="font-medium">{{ category.category }}</div>
-                                </div>
-                            </div>
                             </a>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
@@ -916,13 +916,10 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </TableRow>
                 </TableHeader>
 
-                <TableBody v-if="!isLoading && !isFetching">
-                    <TableRow v-if="isPending">
+                <TableBody>
+                    <TableRow v-if="isFetching">
                         <TableCell colspan="10" class="text-center">
-                            <small class="text-green-500 flex items-center justify-center">
-                                <Loader2Icon class="mr-2 w-5" />
-                                Loading...
-                            </small>
+                            <Skeleton />
                         </TableCell>
                     </TableRow>
 
@@ -945,7 +942,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
 
                         <TableCell class="pr-5">
-                            <a href="#" @click="navigateTo('admin.view-file', {id: file.encrypted_id})">
+                            <a href="#" @click="navigateTo('admin.view-file', { id: file.encrypted_id })">
                                 <div class="text-wrap text-[13px]">{{ file.title }}</div>
                             </a>
                         </TableCell>
@@ -982,10 +979,10 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
 
                         <TableCell class="text-right">
-                            <a href="#" @click="navigateTo('admin.view-file', {id: file.encrypted_id})">
+                            <a href="#" @click="navigateTo('admin.view-file', { id: file.encrypted_id })">
                                 <Button variant="link" class="ml-0 cursor-pointer">
                                     <Eye />
-                                </Button> 
+                                </Button>
                             </a>
                             <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
                                 file.encrypted_id,
@@ -1010,7 +1007,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 <Pencil />
                             </Button>
 
-                            <Button variant="destructive" class="ml-0 cursor-pointer" @click="deleteFileDialog(file.encrypted_id)">
+                            <Button variant="destructive" class="ml-0 cursor-pointer"
+                                @click="deleteFileDialog(file.encrypted_id)">
                                 <Trash2 />
                             </Button>
                         </TableCell>

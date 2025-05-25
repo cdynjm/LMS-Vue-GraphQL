@@ -19,6 +19,7 @@ import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Eye, ArrowRightCircle, ArrowLeftCircle, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+import Skeleton from '@/components/Skeleton.vue';
 
 const queryClient = useQueryClient();
 
@@ -191,13 +192,10 @@ const goToPreviousPage = () => {
                                 </TableRow>
                             </TableHeader>
 
-                            <TableBody v-if="!isLoading && !isFetching">
-                                <TableRow v-if="isPending">
+                            <TableBody>
+                                <TableRow v-if="isFetching">
                                     <TableCell colspan="10" class="text-center">
-                                        <small class="text-green-500 flex items-center justify-center">
-                                            <Loader2Icon class="mr-2 w-5" />
-                                            Loading...
-                                        </small>
+                                       <Skeleton />
                                     </TableCell>
                                 </TableRow>
 

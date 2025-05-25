@@ -44,6 +44,7 @@ import { Calendar, Calendar1, Calendar1Icon, CalendarArrowDown, CheckCircle, Fil
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 import { CalendarCell } from 'reka-ui';
+import SkeletonBox from '@/components/SkeletonBox.vue';
 
 const props = defineProps<{
     id: string
@@ -118,7 +119,13 @@ const { data, isPending, isFetching, isLoading } = useQuery({
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-6 space-y-6">
 
-            <Card class="w-full shadow-none outline-none" v-if="!isLoading && !isFetching">
+            <Card class="w-full shadow-none outline-none" v-if="isFetching">
+                <CardHeader>
+                    <SkeletonBox />
+                </CardHeader>
+            </Card>
+
+            <Card v-else class="w-full shadow-none outline-none">
                 <CardHeader>
                     <CardTitle><span class="text-[13px] mr-2">Ordinance Number: </span>{{
                         data?.viewFile.file.ordinanceNumber != null ? data?.viewFile.file.ordinanceNumber : '--' }}

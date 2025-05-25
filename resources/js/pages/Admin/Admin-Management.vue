@@ -20,6 +20,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
+import Skeleton from '@/components/Skeleton.vue';
 
 const queryClient = useQueryClient()
 
@@ -251,15 +252,12 @@ const deleteAdmin = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-if="isPending">
+                    <TableRow v-if="isFetching">
                         <TableCell colspan="5" class="text-center">
-                            <small class="text-center text-green-500 flex items-center justify-center">
-                                <Loader2Icon class="mr-2 w-5" />
-                                Loading...
-                            </small>
+                           <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-if="data?.admins.length == 0">
+                    <TableRow v-else-if="data?.admins.length == 0">
                         <TableCell colspan="10">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />
@@ -267,7 +265,7 @@ const deleteAdmin = () => {
                             </small>
                         </TableCell>
                     </TableRow>
-                    <TableRow v-for="(admin, index) in data?.admins" :key="admin.encrypted_id">
+                    <TableRow v-else v-for="(admin, index) in data?.admins" :key="admin.encrypted_id">
                         <TableCell><small>{{ index + 1 }}</small></TableCell>
                         <TableCell>{{ admin.name }}</TableCell>
                         <TableCell>{{ admin.email }}</TableCell>
