@@ -77,7 +77,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
     <Head title="File Manager" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-6 space-y-6">
+        <div class="p-4 space-y-6">
 
             <div class="flex w-full justify-between items-center">
                 <h6 class="flex-1 text-md font-bold">Categories</h6>

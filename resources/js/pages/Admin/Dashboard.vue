@@ -10,6 +10,7 @@ import SkeletonCard from '@/components/SkeletonCard.vue';
 import { Bell, Check, PenIcon, CheckCircle, MinusCircle } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import SkeletonBox from '@/components/SkeletonBox.vue';
+import NavFooterFix from '@/components/NavFooterFix.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -248,6 +249,7 @@ const { isPending, data, error, isFetching } = useQuery({
                 </CardFooter>
             </Card>
         </div>
+
     </AppLayout>
 </template>
 

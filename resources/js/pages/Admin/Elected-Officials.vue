@@ -33,6 +33,7 @@ import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon, LoaderCircle } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 import Skeleton from '@/components/Skeleton.vue';
+import NavFooterFix from '@/components/NavFooterFix.vue';
 
 const queryClient = useQueryClient()
 
@@ -222,7 +223,7 @@ const handleUpdatePictureChange = async (event: Event) => {
     <Head title="Elected Officials" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-6 space-y-6">
+        <div class="p-4 space-y-6">
 
             <!-- Top Right Add Button -->
             <div class="flex w-full justify-between items-center">
@@ -501,6 +502,7 @@ const handleUpdatePictureChange = async (event: Event) => {
                 </TableBody>
             </Table>
         </div>
+     
     </AppLayout>
 </template>
 

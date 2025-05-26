@@ -2,6 +2,7 @@
 import { SidebarInset } from '@/components/ui/sidebar';
 import { computed } from 'vue';
 import NavFooter from './NavFooter.vue';
+import NavFooterFix from './NavFooterFix.vue';
 interface Props {
     variant?: 'header' | 'sidebar';
     class?: string;
@@ -17,6 +18,7 @@ const className = computed(() => props.class);
         <div class="min-h-screen flex flex-col">
             <main class="flex-1">
                 <slot />
+                <NavFooterFix />
             </main>
             <NavFooter />
         </div>

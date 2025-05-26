@@ -117,8 +117,7 @@ const { data, isPending, isFetching, isLoading } = useQuery({
     <Head title="View File" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-6 space-y-6">
-
+        <div class="p-4 space-y-6">
             <Card class="w-full shadow-none outline-none" v-if="isFetching">
                 <CardHeader>
                     <SkeletonBox />
@@ -131,7 +130,8 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                         data?.viewFile.file.ordinanceNumber != null ? data?.viewFile.file.ordinanceNumber : '--' }}
                     </CardTitle>
                     <CardDescription class="mt-2">{{ data?.viewFile.file.title }}</CardDescription>
-                    <CardDescription class="font-bold text-blue-500">{{ data?.viewFile.file.category.category }}</CardDescription>
+                    <CardDescription class="font-bold text-blue-500">{{ data?.viewFile.file.category.category }}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <hr>
@@ -158,7 +158,7 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                             <div v-else>
                                 <CheckCircle class="w-5 h-5 text-green-500" />
                             </div>
-                            Provincial Status: 
+                            Provincial Status:
                             <span :class="[
                                 data?.viewFile.file.provincialStatus == 1 ? 'text-red-500' :
                                     data?.viewFile.file.provincialStatus == 2 ? 'text-green-500' :
@@ -168,8 +168,8 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                                     data?.viewFile.file.provincialStatus == 1
                                         ? 'Disapproved'
                                         : data?.viewFile.file.provincialStatus == 2
-                                ? 'Approved Ordinance'
-                                : 'No Status Yet'
+                                            ? 'Approved Ordinance'
+                                            : 'No Status Yet'
                                 }}
                             </span>
                         </div>
@@ -188,10 +188,11 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                                 </div>
                                 Co-Authors: <span>{{ data?.viewFile.file.coAuthors == '' ? 'None' : '' }}</span>
                             </div>
-                            <div v-for="(coauthor, index) in data?.viewFile.file.coAuthors" class="text-[13px] text-gray-500 ml-10">
+                            <div v-for="(coauthor, index) in data?.viewFile.file.coAuthors"
+                                class="text-[13px] text-gray-500 ml-10">
                                 <div class="flex items-center gap-2 mb-1">
-                                <UserCircle2 class="w-4 h-4" />
-                                {{ coauthor.official.name }}
+                                    <UserCircle2 class="w-4 h-4" />
+                                    {{ coauthor.official.name }}
                                 </div>
                             </div>
                         </div>
@@ -205,55 +206,63 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                             Final Title:
                         </div>
 
-                        <div class="text-gray-500 text-[13px]">{{ data?.viewFile.file.finalTitle != null ? data?.viewFile.file.finalTitle : '-' }}</div>
+                        <div class="text-gray-500 text-[13px]">{{ data?.viewFile.file.finalTitle != null ?
+                            data?.viewFile.file.finalTitle : '-' }}</div>
                         <hr class="my-4">
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            1st Reading: <span>{{ data?.viewFile.file.firstReadingDate != null ? formatDate(data?.viewFile.file.firstReadingDate) : '-' }}</span>
+                            1st Reading: <span>{{ data?.viewFile.file.firstReadingDate != null ?
+                                formatDate(data?.viewFile.file.firstReadingDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            2nd Reading: <span>{{ data?.viewFile.file.secondReadingDate != null ? formatDate(data?.viewFile.file.secondReadingDate) : '-' }}</span>
+                            2nd Reading: <span>{{ data?.viewFile.file.secondReadingDate != null ?
+                                formatDate(data?.viewFile.file.secondReadingDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            3rd Reading: <span>{{ data?.viewFile.file.thirdReadingDate != null ? formatDate(data?.viewFile.file.thirdReadingDate) : '-' }}</span>
+                            3rd Reading: <span>{{ data?.viewFile.file.thirdReadingDate != null ?
+                                formatDate(data?.viewFile.file.thirdReadingDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            Enactment: <span>{{ data?.viewFile.file.enactmentDate != null ? formatDate(data?.viewFile.file.enactmentDate) : '-' }}</span>
+                            Enactment: <span>{{ data?.viewFile.file.enactmentDate != null ?
+                                formatDate(data?.viewFile.file.enactmentDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            LCE Approval: <span>{{ data?.viewFile.file.lceapprovalDate != null ? formatDate(data?.viewFile.file.lceapprovalDate) : '-' }}</span>
+                            LCE Approval: <span>{{ data?.viewFile.file.lceapprovalDate != null ?
+                                formatDate(data?.viewFile.file.lceapprovalDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            Transmittal: <span>{{ data?.viewFile.file.transmittalDate != null ? formatDate(data?.viewFile.file.transmittalDate) : '-' }}</span>
+                            Transmittal: <span>{{ data?.viewFile.file.transmittalDate != null ?
+                                formatDate(data?.viewFile.file.transmittalDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
                             <div>
                                 <Calendar1Icon class="w-5 h-5 text-green-500" />
                             </div>
-                            SPSL Approval: <span>{{ data?.viewFile.file.spslapprovalDate != null ? formatDate(data?.viewFile.file.spslapprovalDate) : '-' }}</span>
+                            SPSL Approval: <span>{{ data?.viewFile.file.spslapprovalDate != null ?
+                                formatDate(data?.viewFile.file.spslapprovalDate) : '-' }}</span>
                         </div>
 
                         <div class="text-gray-500 text-[13px] flex items-center gap-2 mb-2">
@@ -267,7 +276,8 @@ const { data, isPending, isFetching, isLoading } = useQuery({
                             <div>
                                 <FileCheckIcon class="w-5 h-5 text-green-500" />
                             </div>
-                            Publish Status: <span>{{ data?.viewFile.file.publishStatus == 1 ? 'Published' : '-' }}</span>
+                            Publish Status: <span>{{ data?.viewFile.file.publishStatus == 1 ? 'Published' : '-'
+                                }}</span>
                         </div>
 
                     </div>

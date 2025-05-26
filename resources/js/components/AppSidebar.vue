@@ -10,52 +10,18 @@ import AppLogo from './AppLogo.vue';
 
 const page = usePage<SharedData>();
 
-let mainNavItems: NavItem[] = [];
-
-if (page.props.auth.user.role == 1) {
-    mainNavItems = [
-        {
-            title: 'Dashboard',
-            href: 'admin.dashboard',
-            icon: LayoutGrid,
-        },
-        {
-            title: 'Admin Management',
-            href: 'admin.management',
-            icon: User2,
-        },
-        {
-            title: 'Elected Officials',
-            href: 'admin.elected-officials',
-            icon: UserCheck,
-        },
-        {
-            title: 'File Manager',
-            href: 'admin.file-manager',
-            icon: Folder,
-        },
+const mainNavItems: NavItem[] = page.props.auth.user.role === 1
+  ? [
+      { title: 'Dashboard', href: 'admin.dashboard', icon: LayoutGrid },
+      { title: 'Admin Management', href: 'admin.management', icon: User2 },
+      { title: 'Elected Officials', href: 'admin.elected-officials', icon: UserCheck },
+      { title: 'File Manager', href: 'admin.file-manager', icon: Folder },
+    ]
+  : [
+      { title: 'Dashboard', href: 'user.dashboard', icon: LayoutGrid },
+      { title: 'Elected Officials', href: 'user.elected-officials', icon: UserCheck },
+      { title: 'File Manager', href: 'user.file-manager', icon: Folder },
     ];
-}
-
-else {
-    mainNavItems = [
-        {
-            title: 'Dashboard',
-            href: 'user.dashboard',
-            icon: LayoutGrid,
-        },
-        {
-            title: 'Elected Officials',
-            href: 'user.elected-officials',
-            icon: UserCheck,
-        },
-        {
-            title: 'File Manager',
-            href: 'user.file-manager',
-            icon: Folder,
-        },
-    ];
-}
 
 </script>
 

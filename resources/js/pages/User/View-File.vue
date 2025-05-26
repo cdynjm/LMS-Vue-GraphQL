@@ -117,7 +117,7 @@ const { data, isPending, isFetching, isLoading } = useQuery({
     <Head title="View File" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="p-6 space-y-6">
+        <div class="p-4 space-y-6">
 
             <Card class="w-full shadow-none outline-none" v-if="isFetching">
                 <CardHeader>
