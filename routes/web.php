@@ -17,7 +17,6 @@ Route::get('/storage', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
 Route::middleware(['auth', 'admin'])->group(function () {
     
     Route::prefix('admin')->group(function () {

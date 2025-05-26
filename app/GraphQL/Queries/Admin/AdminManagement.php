@@ -17,6 +17,9 @@ final readonly class AdminManagement
         }
         
         return User::where('role', 1)->orderBy('name', 'ASC')->get();
+
+        $hello = 'Hello World';
+        $hello = 1;
     }
 
     private function authorize(): bool
