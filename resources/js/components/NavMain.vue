@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type SharedData } from '@/types';
-import { usePage, router } from '@inertiajs/vue3';
+import { usePage, router, Link } from '@inertiajs/vue3';
 
 defineProps<{
   items: NavItem[];
@@ -24,10 +24,10 @@ function navigateTo(routeName: string) {
           :is-active="route().current(item.href)"
           :tooltip="item.title"
         >
-          <a @click.prevent="navigateTo(item.href)" href="#">
+          <Link :href="route(item.href)" prefetch>
             <component :is="item.icon" class="text-gray-500" />
             <span class="text-[13px]">{{ item.title }}</span>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

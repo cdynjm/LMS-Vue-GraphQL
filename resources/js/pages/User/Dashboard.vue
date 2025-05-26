@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 import { Users, Folder, File, UserCheck } from 'lucide-vue-next'
 import SkeletonCard from '@/components/SkeletonCard.vue';
 import { Bell, Check, PenIcon, CheckCircle, MinusCircle } from 'lucide-vue-next'
@@ -46,6 +46,9 @@ const fetchDashboardCounts = async () => {
                             position
                         }
                     }
+                    category {
+                        category
+                    }
                 }
             }
         }
@@ -68,6 +71,7 @@ const { isPending, data, error, isFetching } = useQuery({
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+            <Link :href="route('user.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-blue-50 py-2">
                     <CardTitle class="text-[13px]">Categories</CardTitle>
@@ -80,7 +84,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.categoriesCount }}</p>
                 </CardContent>
             </Card>
+            </Link>
 
+            <Link :href="route('user.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-red-50 py-2">
                     <CardTitle class="text-[13px]">Files</CardTitle>
@@ -93,7 +99,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.filesCount }}</p>
                 </CardContent>
             </Card>
+            </Link>
 
+            <Link :href="route('user.elected-officials')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-orange-50 py-2">
                     <CardTitle class="text-[13px]">Officials</CardTitle>
@@ -106,6 +114,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.officialsCount }}</p>
                 </CardContent>
             </Card>
+            </Link>
         </div>
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 p-4">
 
@@ -137,6 +146,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     </div>
                 </CardHeader>
                 <CardContent class="grid gap-4">
+                   <div class="text-[14px] font-bold text-gray-600">{{ files.category.category }}</div>
                     <div>
                         <p class="text-[14px]">{{ files.finalTitle == null ? files.title : files.finalTitle }}</p>
                     </div>

@@ -112,7 +112,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <a href="#" @click="navigateTo('user.files', { id: category.encrypted_id })">
+                            <Link :href="route('user.files', { id: category.encrypted_id })">
                                 <div class="flex items-center space-x-3">
                                     <div>
                                         <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
@@ -122,7 +122,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                         <div class="font-medium">{{ category.category }}</div>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>

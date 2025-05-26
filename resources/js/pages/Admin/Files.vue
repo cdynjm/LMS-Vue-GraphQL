@@ -871,7 +871,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <a href="#" @click="navigateTo('admin.files', { id: category.encrypted_id })">
+                           <Link :href="route('admin.files', { id: category.encrypted_id })" prefetch>
                                 <div class="flex items-center space-x-3">
                                     <div>
                                         <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
@@ -881,7 +881,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                         <div class="font-medium">{{ category.category }}</div>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>
@@ -952,9 +952,9 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
 
                         <TableCell class="pr-5">
-                            <a href="#" @click="navigateTo('admin.view-file', { id: file.encrypted_id })">
+                            <Link :href="route('admin.view-file', { id: file.encrypted_id })" prefetch>
                                 <div class="text-wrap text-[13px]">{{ file.title }}</div>
-                            </a>
+                            </Link>
                         </TableCell>
 
                         <TableCell>
@@ -989,11 +989,11 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
 
                         <TableCell class="text-right">
-                            <a href="#" @click="navigateTo('admin.view-file', { id: file.encrypted_id })">
+                            <Link :href="route('admin.view-file', { id: file.encrypted_id })" prefetch> 
                                 <Button variant="link" class="ml-0 cursor-pointer">
                                     <Eye />
                                 </Button>
-                            </a>
+                            </Link>
                             <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
                                 file.encrypted_id,
                                 file.categoryID,

@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Eye, ArrowRightCircle, ArrowLeftCircle, ArrowRight, ArrowLeft,CheckCircle } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, PenIcon, ArrowRight, ArrowLeft,CheckCircle, File } from 'lucide-vue-next';
 import Skeleton from '@/components/Skeleton.vue';
 import SkeletonCard from '@/components/SkeletonCard.vue';
 import SkeletonBox from '@/components/SkeletonBox.vue';
@@ -58,6 +58,9 @@ const guestFetchFiles = async () => {
                     name
                     position
                 }
+            }
+            category {
+                category
             }
           }
           paginatorInfo {
@@ -197,6 +200,7 @@ const goToPreviousPage = () => {
                             </div>
                         </CardHeader>
                         <CardContent class="grid gap-4">
+                            <div class="text-[14px] font-bold text-gray-600">{{ files.category.category }}</div>
                             <div>
                                 <p class="text-[14px]">{{ files.finalTitle == null ? files.title : files.finalTitle }}
                                 </p>
