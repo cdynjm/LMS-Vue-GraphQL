@@ -35,6 +35,7 @@ import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Loade
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 import Skeleton from '@/components/Skeleton.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const props = defineProps<{
     id: string
@@ -327,20 +328,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </TableRow>
                 </TableBody>
             </Table>
-            <div class="flex justify-between items-center mt-8">
-                <Button :disabled="paginatorInfo.currentPage <= 1" @click="goToPreviousPage" class="cursor-pointer">
-                    <ArrowLeft />
-                </Button>
-
-                <small>
-                    Pages {{ paginatorInfo.currentPage }} of {{ paginatorInfo.lastPage }}
-                </small>
-
-                <Button :disabled="paginatorInfo.currentPage >= paginatorInfo.lastPage" @click="goToNextPage"
-                    class="cursor-pointer">
-                    <ArrowRight />
-                </Button>
-            </div>
+            <Pagination :current-page="paginatorInfo.currentPage" :last-page="paginatorInfo.lastPage"
+                @next="goToNextPage" @previous="goToPreviousPage" />
         </div>
     </AppLayout>
 </template>

@@ -113,7 +113,7 @@ const { isPending, error, data, isFetching } = useQuery({
                         <TableCell class="w-[300px] pr-20">
                             <div class="flex items-center space-x-3">
                                 <!-- Picture -->
-                                <img :src="'/storage/profile/' + official.photo" alt="Profile"
+                                <img draggable="false" :src="'/storage/profile/' + official.photo" alt="Profile"
                                     class="w-10 h-10 rounded-full object-cover" />
                                 <div>
                                     <div class="font-medium">{{ official.name }}</div>

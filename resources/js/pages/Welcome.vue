@@ -18,10 +18,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2, MinusCircle, PenIcon, ArrowRight, ArrowLeft,CheckCircle, File } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, PenIcon, ArrowRight, ArrowLeft, CheckCircle, File, Folder, LocateIcon } from 'lucide-vue-next';
 import Skeleton from '@/components/Skeleton.vue';
 import SkeletonCard from '@/components/SkeletonCard.vue';
 import SkeletonBox from '@/components/SkeletonBox.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const queryClient = useQueryClient();
 
@@ -79,7 +80,7 @@ const guestFetchFiles = async () => {
         query,
         variables: {
             page: currentPage.value,
-            first: 20,
+            first: 10,
         },
     });
 
@@ -135,7 +136,7 @@ const goToPreviousPage = () => {
             <nav class="flex items-center justify-between gap-4 w-full">
                 <!-- Logo + Labels -->
                 <div class="flex items-center gap-3">
-                    <img src="/app-logo.jpg" alt="Logo" class="h-10 w-auto" />
+                    <img draggable="false" src="/app-logo.jpg" alt="Logo" class="h-10 w-auto" />
 
                     <!-- Labels -->
                     <div class="flex flex-col leading-tight">
@@ -170,6 +171,20 @@ const goToPreviousPage = () => {
 
         <div class="min-h-screen flex flex-col w-full">
             <main class="flex-1 w-full lg:px-20 lg:pt-10">
+                <Card class="shadow-none mb-4 py-2">
+                    <div class="mx-5">
+                        <CardDescription
+                            class="text-center font-bold md:flex items-center gap-2 justify-center md:justify-between">
+                            <div class="flex justify-center items-center gap-2 md:mb-0">
+                                <Folder class="mb-[2px] w-5 h-auto" />
+                                List of Ordinances
+                            </div>
+                            <div class="md:flex hidden">
+                                Municpality of Bontoc
+                            </div>
+                        </CardDescription>
+                    </div>
+                </Card>
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
                     <Card v-if="isFetching" class="shadow-none" v-for="n in 3">
                         <CardHeader class="text-[14px]">
@@ -186,7 +201,7 @@ const goToPreviousPage = () => {
                             <CardDescription>{{ files.ordinanceNumber != null ? files.ordinanceNumber : '-' }}
                             </CardDescription>
                             <div class=" flex items-center space-x-4 rounded-md border p-4">
-                                <img :src="'/storage/profile/' + files.author.photo"
+                                <img draggable="false" :src="'/storage/profile/' + files.author.photo"
                                     class="w-10 h-10 rounded-full object-cover" />
                                 <div class="flex-1 space-y-1">
                                     <p class="text-sm font-medium leading-none">
@@ -270,20 +285,8 @@ const goToPreviousPage = () => {
                         </CardFooter>
                     </Card>
                 </div>
-                <div class="flex justify-between items-center mt-8">
-                    <Button :disabled="paginatorInfo.currentPage <= 1" @click="goToPreviousPage" class="cursor-pointer">
-                        <ArrowLeft />
-                    </Button>
-
-                    <small>
-                        Pages {{ paginatorInfo.currentPage }} of {{ paginatorInfo.lastPage }}
-                    </small>
-
-                    <Button :disabled="paginatorInfo.currentPage >= paginatorInfo.lastPage" @click="goToNextPage"
-                        class="cursor-pointer">
-                        <ArrowRight />
-                    </Button>
-                </div>
+                <Pagination :current-page="paginatorInfo.currentPage" :last-page="paginatorInfo.lastPage"
+                @next="goToNextPage" @previous="goToPreviousPage" />
             </main>
             <NavFooter />
         </div>

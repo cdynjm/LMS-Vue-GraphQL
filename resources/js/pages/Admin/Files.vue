@@ -35,6 +35,7 @@ import { Pencil, Trash2, MinusCircle, Loader2Icon, Folder, LucideFileText, Loade
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 import Skeleton from '@/components/Skeleton.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const props = defineProps<{
     id: string
@@ -488,10 +489,10 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer"
-                                    :disabled="createCategoryForm.processing">
+                                <Button type="submit" class="cursor-pointer" :disabled="createCategoryForm.processing">
                                     <LoaderCircle v-if="createCategoryForm.processing" class="h-4 w-4 animate-spin" />
-                                    Save</Button>
+                                    Save
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -515,10 +516,10 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 </div>
                             </div>
                             <DialogFooter>
-                                <Button type="submit" class="cursor-pointer"
-                                    :disabled="updateCategoryForm.processing">
+                                <Button type="submit" class="cursor-pointer" :disabled="updateCategoryForm.processing">
                                     <LoaderCircle v-if="updateCategoryForm.processing" class="h-4 w-4 animate-spin" />
-                                    Save</Button>
+                                    Save
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -538,7 +539,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 <Button type="submit" class="cursor-pointer" variant="destructive"
                                     :disabled="deleteCategoryForm.processing">
                                     <LoaderCircle v-if="deleteCategoryForm.processing" class="h-4 w-4 animate-spin" />
-                                    Delete</Button>
+                                    Delete
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -637,7 +639,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <!-- Footer -->
                             <DialogFooter>
                                 <Button type="submit" class="cursor-pointer" :disabled="createForm.processing">
-                                <LoaderCircle v-if="createForm.processing" class="h-4 w-4 animate-spin" />
+                                    <LoaderCircle v-if="createForm.processing" class="h-4 w-4 animate-spin" />
                                     Save
                                 </Button>
                             </DialogFooter>
@@ -810,7 +812,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
 
                             <div class="md:col-span-2 text-right">
                                 <Button type="submit" class="cursor-pointer" :disabled="updateForm.processing">
-                                <LoaderCircle v-if="updateForm.processing" class="h-4 w-4 animate-spin" />
+                                    <LoaderCircle v-if="updateForm.processing" class="h-4 w-4 animate-spin" />
                                     Save
                                 </Button>
                             </div>
@@ -833,7 +835,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                 <Button type="submit" class="cursor-pointer" variant="destructive"
                                     :disabled="deleteForm.processing">
                                     <LoaderCircle v-if="deleteForm.processing" class="h-4 w-4 animate-spin" />
-                                    Delete</Button>
+                                    Delete
+                                </Button>
                             </DialogFooter>
                         </form>
                     </DialogContent>
@@ -871,16 +874,16 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                           <Link :href="route('admin.files', { id: category.encrypted_id })" prefetch>
-                                <div class="flex items-center space-x-3">
-                                    <div>
-                                        <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
-                                            fill="currentColor" />
-                                    </div>
-                                    <div>
-                                        <div class="font-medium">{{ category.category }}</div>
-                                    </div>
+                            <Link :href="route('admin.files', { id: category.encrypted_id })" prefetch>
+                            <div class="flex items-center space-x-3">
+                                <div>
+                                    <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                                        fill="currentColor" />
                                 </div>
+                                <div>
+                                    <div class="font-medium">{{ category.category }}</div>
+                                </div>
+                            </div>
                             </Link>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
@@ -953,7 +956,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
 
                         <TableCell class="pr-5">
                             <Link :href="route('admin.view-file', { id: file.encrypted_id })" prefetch>
-                                <div class="text-wrap text-[13px]">{{ file.title }}</div>
+                            <div class="text-wrap text-[13px]">{{ file.title }}</div>
                             </Link>
                         </TableCell>
 
@@ -989,10 +992,10 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
 
                         <TableCell class="text-right">
-                            <Link :href="route('admin.view-file', { id: file.encrypted_id })" prefetch> 
-                                <Button variant="link" class="ml-0 cursor-pointer">
-                                    <Eye />
-                                </Button>
+                            <Link :href="route('admin.view-file', { id: file.encrypted_id })" prefetch>
+                            <Button variant="link" class="ml-0 cursor-pointer">
+                                <Eye />
+                            </Button>
                             </Link>
                             <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
                                 file.encrypted_id,
@@ -1025,20 +1028,8 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </TableRow>
                 </TableBody>
             </Table>
-            <div class="flex justify-between items-center mt-8">
-                <Button :disabled="paginatorInfo.currentPage <= 1" @click="goToPreviousPage" class="cursor-pointer">
-                    <ArrowLeft />
-                </Button>
-
-                <small>
-                    Pages {{ paginatorInfo.currentPage }} of {{ paginatorInfo.lastPage }}
-                </small>
-
-                <Button :disabled="paginatorInfo.currentPage >= paginatorInfo.lastPage" @click="goToNextPage"
-                    class="cursor-pointer">
-                    <ArrowRight />
-                </Button>
-            </div>
+            <Pagination :current-page="paginatorInfo.currentPage" :last-page="paginatorInfo.lastPage"
+                @next="goToNextPage" @previous="goToPreviousPage" />
         </div>
     </AppLayout>
 </template>

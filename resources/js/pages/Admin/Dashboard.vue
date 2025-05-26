@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const queryClient = useQueryClient()
 
-const fetchDashboardCounts = async () => {
+const fetchDashboard = async () => {
     const query = `
         query {
             dashboard {
@@ -60,8 +60,8 @@ const fetchDashboardCounts = async () => {
 }
 
 const { isPending, data, error, isFetching } = useQuery({
-    queryKey: ['fetchDashboardCounts'],
-    queryFn: fetchDashboardCounts
+    queryKey: ['fetchDashboard'],
+    queryFn: fetchDashboard
 });
 
 </script>
@@ -133,8 +133,25 @@ const { isPending, data, error, isFetching } = useQuery({
             </Card>
             </Link>
         </div>
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 p-4">
 
+        <div class="grid grid-cols-1 gap-4 p-4 py-0">
+            <Card class="shadow-none py-2">
+                <div class="mx-5">
+                    <CardDescription
+                        class="text-center font-bold md:flex items-center gap-2 justify-center md:justify-between">
+                        <div class="flex justify-center items-center gap-2 md:mb-0">
+                            <Folder class="mb-[2px] w-5 h-auto" />
+                            Recent Ordinances
+                        </div>
+                        <div class="md:flex hidden">
+                            Municpality of Bontoc
+                        </div>
+                    </CardDescription>
+                </div>
+            </Card>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 p-4">
             <Card v-if="isFetching" class="shadow-none" v-for="n in 3">
                 <CardHeader class="text-[14px]">
                     <SkeletonCard />
@@ -149,7 +166,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <CardTitle>Ordinance Number</CardTitle>
                     <CardDescription>{{ files.ordinanceNumber != null ? files.ordinanceNumber : '-' }}</CardDescription>
                     <div class=" flex items-center space-x-4 rounded-md border p-4">
-                        <img :src="'/storage/profile/' + files.author.photo"
+                        <img draggable="false" :src="'/storage/profile/' + files.author.photo"
                             class="w-10 h-10 rounded-full object-cover" />
                         <div class="flex-1 space-y-1">
                             <p class="text-sm font-medium leading-none">

@@ -30,11 +30,11 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    avatar?: string;
-    email_verified_at: string | null;
+  //  avatar?: string;
+   // email_verified_at: string | null;
     role: number,
-    created_at: string;
-    updated_at: string;
+   // created_at: string;
+   // updated_at: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

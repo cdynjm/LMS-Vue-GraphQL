@@ -14,7 +14,7 @@ import { MessageCircle, Globe2Icon } from 'lucide-vue-next';
                 <!-- Right Section: Jemuel Cadayona -->
                 <div class="flex flex-col items-center lg:flex-row lg:justify-end lg:items-center gap-4">
                     <!-- Image -->
-                    <img src="/help-desk (1).png" class="h-40 w-40 object-contain" alt="Help Desk" />
+                    <img draggable="false" src="/help-desk (1).png" class="h-40 w-40 object-contain" alt="Help Desk" />
 
                     <!-- Labels -->
                     <div class="flex flex-col text-center lg:text-left">
@@ -38,7 +38,7 @@ import { MessageCircle, Globe2Icon } from 'lucide-vue-next';
                     <!-- Legislative Logo + Labels -->
                     <Link :href="'/'"
                         class="flex flex-col items-center lg:flex-row lg:items-center lg:space-x-3 rtl:space-x-reverse">
-                    <img src="/app-logo.jpg" class="h-10 w-10" alt="App Logo" />
+                    <img draggable="false" src="/app-logo.jpg" class="h-10 w-10" alt="App Logo" />
                     <div class="flex flex-col text-center lg:text-left mt-2 lg:mt-0">
                         <span class="text-[14px] font-semibold whitespace-nowrap dark:text-white">Legislative MS</span>
                         <span class="text-[12px] text-gray-500">Legislative Management System</span>
@@ -49,17 +49,17 @@ import { MessageCircle, Globe2Icon } from 'lucide-vue-next';
                     <div class="flex gap-4 mt-0">
                         <a href="https://southernleytestateu.edu.ph/index.php/en/" target="_blank"
                             class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
-                            <img src="/logo-slsu.png" class="h-10 w-10 mb-1" alt="SLSU" />
+                            <img draggable="false" src="/logo-slsu.png" class="h-10 w-10 mb-1" alt="SLSU" />
                             <small>SLSU</small>
                         </a>
                         <a href="https://www.facebook.com/ictsorg" target="_blank"
                             class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
-                            <img src="/logo-ccsit.jpg" class="h-10 w-10 mb-1" alt="FCSIT" />
+                            <img draggable="false" src="/logo-ccsit.jpg" class="h-10 w-10 mb-1" alt="FCSIT" />
                             <small>FCSIT</small>
                         </a>
                         <a href="https://jemcdyn.vercel.app/" target="_blank"
                             class="flex flex-col items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
-                            <img src="/jemcdyn.png" class="h-10 w-10 outline p-1 outline-gray-400 rounded-[50%] mb-1" alt="FCSIT" />
+                            <img draggable="false" src="/jemcdyn.png" class="h-10 w-10 outline p-1 outline-gray-400 rounded-[50%] mb-1" alt="FCSIT" />
                             <small>JEM, dev.</small>
                         </a>
                     </div>
