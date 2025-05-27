@@ -453,7 +453,7 @@ const handleUpdatePictureChange = async (event: Event) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-if="isFetching">
+                    <TableRow v-if="isPending">
                         <TableCell colspan="10" class="text-center">
                             <Skeleton />
                         </TableCell>

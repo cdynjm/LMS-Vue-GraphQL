@@ -256,7 +256,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-if="isFetching">
+                    <TableRow v-if="isPending">
                         <TableCell colspan="10" class="text-center">
                             <Skeleton />
                         </TableCell>

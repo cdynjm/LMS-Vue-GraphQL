@@ -185,7 +185,7 @@ const goToPreviousPage = () => {
                         </CardDescription>
                     </div>
                 </Card>
-                <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length == 0 && !isFetching">
+                <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length == 0 && !isPending">
                     <Card class="shadow-none">
                         <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
                             <MinusCircle class="w-5 h-auto" /> No Data Found
@@ -193,7 +193,7 @@ const goToPreviousPage = () => {
                     </Card>
                 </div>
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
-                    <Card v-if="isFetching" class="shadow-none" v-for="n in 3">
+                    <Card v-if="isPending" class="shadow-none" v-for="n in 3">
                         <CardHeader class="text-[14px]">
                             <SkeletonCard />
                         </CardHeader>

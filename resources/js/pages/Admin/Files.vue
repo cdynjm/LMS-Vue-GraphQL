@@ -470,15 +470,18 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
             <!-- Top Right Add Button -->
             <div class="flex w-full justify-between items-center">
 
-                <div>
-                    <div v-if="!isLoading && !isFetching">
-                        <h6 class="flex text-md font-bold items-center">
-                            <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500"
-                                fill="currentColor" />
-                            {{ data?.files.categoryName.category }}
-                        </h6>
-                    </div>
+                <div v-if="isFetching" >
+                    <SkeletonCard />
                 </div>
+
+                <div v-else>
+                    <h6 class="flex text-md font-bold items-center">
+                        <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                            fill="currentColor" />
+                        {{ data?.files.categoryName.category }}
+                    </h6>
+                </div>
+
 
                 <Dialog v-model:open="openCategoryDialog">
                     <DialogTrigger as-child>
@@ -963,13 +966,13 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                     {{ files.author.position }}
                                 </p>
                             </div>
-                            
-                                <Link :href="route('admin.view-file', { id: files.encrypted_id })" prefetch>
-                                <Button variant="link" class="ml-0 cursor-pointer">
-                                    <Eye />
-                                </Button>
-                                </Link>
-                          
+
+                            <Link :href="route('admin.view-file', { id: files.encrypted_id })" prefetch>
+                            <Button variant="link" class="ml-0 cursor-pointer">
+                                <Eye />
+                            </Button>
+                            </Link>
+
                         </div>
                     </CardHeader>
                     <CardContent class="grid gap-4">
@@ -1034,39 +1037,39 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </CardContent>
 
                     <CardFooter class="mt-auto">
-                         <Button class="text-[12px] cursor-pointer">
+                        <Button class="text-[12px] cursor-pointer">
                             <a :href="'/storage/files/' + files.file" class="flex items-center gap-2" target="_blank">
                                 <File /> Open PDF File
                             </a>
                         </Button>
 
-                         <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
-                                files.encrypted_id,
-                                files.categoryID,
-                                files.municipalStatus,
-                                files.provincialStatus,
-                                files.title,
-                                files.author.encrypted_id,
-                                getCoAuthorIds(files.coAuthors),
-                                files.firstReadingDate,
-                                files.secondReadingDate,
-                                files.thirdReadingDate,
-                                files.ordinanceNumber,
-                                files.finalTitle,
-                                files.enactmentDate,
-                                files.lceapprovalDate,
-                                files.transmittalDate,
-                                files.spslapprovalDate,
-                                files.postStatus,
-                                files.publishStatus
-                            )">
-                                <Pencil />
-                            </Button>
+                        <Button variant="link" class="ml-0 cursor-pointer" @click="editFileDialog(
+                            files.encrypted_id,
+                            files.categoryID,
+                            files.municipalStatus,
+                            files.provincialStatus,
+                            files.title,
+                            files.author.encrypted_id,
+                            getCoAuthorIds(files.coAuthors),
+                            files.firstReadingDate,
+                            files.secondReadingDate,
+                            files.thirdReadingDate,
+                            files.ordinanceNumber,
+                            files.finalTitle,
+                            files.enactmentDate,
+                            files.lceapprovalDate,
+                            files.transmittalDate,
+                            files.spslapprovalDate,
+                            files.postStatus,
+                            files.publishStatus
+                        )">
+                            <Pencil />
+                        </Button>
 
-                            <Button variant="destructive" class="ml-0 cursor-pointer"
-                                @click="deleteFileDialog(files.encrypted_id)">
-                                <Trash2 />
-                            </Button>
+                        <Button variant="destructive" class="ml-0 cursor-pointer"
+                            @click="deleteFileDialog(files.encrypted_id)">
+                            <Trash2 />
+                        </Button>
                     </CardFooter>
                 </Card>
             </div>

@@ -261,7 +261,7 @@ const deleteAdmin = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-if="isFetching">
+                    <TableRow v-if="isPending">
                         <TableCell colspan="5" class="text-center">
                            <Skeleton />
                         </TableCell>

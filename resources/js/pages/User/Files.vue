@@ -195,18 +195,21 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-4 space-y-6">
 
-        <div class="flex w-full justify-between items-center">
+            <div class="flex w-full justify-between items-center">
 
-                <div>
-                    <div v-if="!isLoading && !isFetching">
-                        <h6 class="flex text-md font-bold items-center">
-                            <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500"
-                                fill="currentColor" />
-                            {{ data?.userfiles.categoryName.category }}
-                        </h6>
-                    </div>
+                <div v-if="isFetching">
+                    <SkeletonCard />
                 </div>
-                 </div>
+
+                <div v-else>
+                    <h6 class="flex text-md font-bold items-center">
+                        <Folder class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                            fill="currentColor" />
+                        {{ data?.userfiles.categoryName.category }}
+                    </h6>
+                </div>
+
+            </div>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -293,13 +296,13 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                     {{ files.author.position }}
                                 </p>
                             </div>
-                            
-                                <Link :href="route('user.view-file', { id: files.encrypted_id })" prefetch>
-                                <Button variant="link" class="ml-0 cursor-pointer">
-                                    <Eye />
-                                </Button>
-                                </Link>
-                          
+
+                            <Link :href="route('user.view-file', { id: files.encrypted_id })" prefetch>
+                            <Button variant="link" class="ml-0 cursor-pointer">
+                                <Eye />
+                            </Button>
+                            </Link>
+
                         </div>
                     </CardHeader>
                     <CardContent class="grid gap-4">
@@ -364,7 +367,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </CardContent>
 
                     <CardFooter class="mt-auto">
-                         <Button class="w-full text-[12px] cursor-pointer">
+                        <Button class="w-full text-[12px] cursor-pointer">
                             <a :href="'/storage/files/' + files.file" class="flex items-center gap-2" target="_blank">
                                 <File /> Open PDF File
                             </a>

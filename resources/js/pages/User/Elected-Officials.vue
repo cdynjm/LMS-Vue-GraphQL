@@ -93,7 +93,7 @@ const { isPending, error, data, isFetching } = useQuery({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-if="isFetching">
+                    <TableRow v-if="isPending">
                         <TableCell colspan="10" class="text-center">
                             <Skeleton />
                         </TableCell>
