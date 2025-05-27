@@ -56,7 +56,12 @@ const fetchDashboard = async () => {
         }
     `
 
-    const response = await axios.post('/graphql', { query });
+    const response = await axios.post('/graphql', { query }, {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    });
     return response.data.data;
 }
 
