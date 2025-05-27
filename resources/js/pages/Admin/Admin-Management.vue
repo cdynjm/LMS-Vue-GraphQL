@@ -44,12 +44,7 @@ const fetchAdmins = async () => {
       }
     }
   `
-    const response = await axios.post('/graphql', { query }, {
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
+    const response = await axios.post('/graphql', { query })
     return response.data.data
 }
 
