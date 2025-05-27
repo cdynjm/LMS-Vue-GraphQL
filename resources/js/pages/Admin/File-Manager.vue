@@ -35,6 +35,7 @@ import { toast } from 'vue-sonner'
 import Skeleton from '@/components/Skeleton.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavFooterFix from '@/components/NavFooterFix.vue';
+import SlowLink from '@/components/SlowLink.vue';
 
 const queryClient = useQueryClient()
 
@@ -274,7 +275,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <small>{{ index + 1 }}</small>
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
-                            <Link :href="route('admin.files', { id: category.encrypted_id })" prefetch>
+                            <SlowLink :href="route('admin.files', { id: category.encrypted_id })" prefetch>
                                 <div class="flex items-center space-x-3">
                                     <div>
                                         <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
@@ -284,7 +285,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                                         <div class="font-medium">{{ category.category }}</div>
                                     </div>
                                 </div>
-                            </Link>
+                            </SlowLink>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
                         <TableCell><small>{{ formatDateTime(category.created_at) }}</small></TableCell>

@@ -11,6 +11,7 @@ import { Bell, Check, PenIcon, CheckCircle, MinusCircle } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import SkeletonBox from '@/components/SkeletonBox.vue';
 import NavFooterFix from '@/components/NavFooterFix.vue';
+import SlowLink from '@/components/SlowLink.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -74,7 +75,7 @@ const { isPending, data, error, isFetching } = useQuery({
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
 
-            <Link :href="route('admin.management')" prefetch>
+            <SlowLink :href="route('admin.management')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-green-50 py-2">
                     <CardTitle class="text-[13px]">Admins</CardTitle>
@@ -87,9 +88,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.dashboard.adminsCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
 
-            <Link :href="route('admin.file-manager')" prefetch>
+            <SlowLink :href="route('admin.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-blue-50 py-2">
                     <CardTitle class="text-[13px]">Categories</CardTitle>
@@ -102,9 +103,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.dashboard.categoriesCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
 
-            <Link :href="route('admin.file-manager')" prefetch>
+            <SlowLink :href="route('admin.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-red-50 py-2">
                     <CardTitle class="text-[13px]">Files</CardTitle>
@@ -117,9 +118,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.dashboard.filesCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
 
-            <Link :href="route('admin.elected-officials')" prefetch>
+            <SlowLink :href="route('admin.elected-officials')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-orange-50 py-2">
                     <CardTitle class="text-[13px]">Officials</CardTitle>
@@ -132,7 +133,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.dashboard.officialsCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
         </div>
 
         <div class="grid grid-cols-1 gap-4 p-4 py-0">

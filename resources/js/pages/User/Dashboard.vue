@@ -10,6 +10,7 @@ import SkeletonCard from '@/components/SkeletonCard.vue';
 import { Bell, Check, PenIcon, CheckCircle, MinusCircle } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import SkeletonBox from '@/components/SkeletonBox.vue';
+import SlowLink from '@/components/SlowLink.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -71,7 +72,7 @@ const { isPending, data, error, isFetching } = useQuery({
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-            <Link :href="route('user.file-manager')" prefetch>
+            <SlowLink :href="route('user.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-blue-50 py-2">
                     <CardTitle class="text-[13px]">Categories</CardTitle>
@@ -84,9 +85,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.categoriesCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
 
-            <Link :href="route('user.file-manager')" prefetch>
+            <SlowLink :href="route('user.file-manager')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-red-50 py-2">
                     <CardTitle class="text-[13px]">Files</CardTitle>
@@ -99,9 +100,9 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.filesCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
 
-            <Link :href="route('user.elected-officials')" prefetch>
+            <SlowLink :href="route('user.elected-officials')" prefetch>
             <Card class="pt-0 shadow-none">
                 <CardHeader class="flex items-center justify-between bg-orange-50 py-2">
                     <CardTitle class="text-[13px]">Officials</CardTitle>
@@ -114,7 +115,7 @@ const { isPending, data, error, isFetching } = useQuery({
                     <p class="text-2xl font-bold">{{ data?.userdashboard.officialsCount }}</p>
                 </CardContent>
             </Card>
-            </Link>
+            </SlowLink>
         </div>
 
          <div class="grid grid-cols-1 gap-4 p-4 py-0">

@@ -2,6 +2,7 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type SharedData } from '@/types';
 import { usePage, router, Link } from '@inertiajs/vue3';
+import SlowLink from './SlowLink.vue';
 
 defineProps<{
   items: NavItem[];
@@ -24,10 +25,10 @@ function navigateTo(routeName: string) {
           :is-active="route().current(item.href)"
           :tooltip="item.title"
         >
-          <Link :href="route(item.href)" prefetch>
+          <SlowLink :href="route(item.href)" prefetch>
             <component :is="item.icon" class="text-gray-500" />
             <span class="text-[13px]">{{ item.title }}</span>
-          </Link>
+          </SlowLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
