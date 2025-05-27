@@ -2,6 +2,7 @@
 import { usePage, Link } from '@inertiajs/vue3';
 import { type NavItem, type SharedData } from '@/types';
 import { LayoutGrid, Folder, UserCheck, User2 } from 'lucide-vue-next';
+import SlowLink from './SlowLink.vue';
 
 const page = usePage<SharedData>();
 
@@ -22,7 +23,7 @@ const mainNavItems: NavItem[] = page.props.auth.user.role === 1
 <template>
   <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 shadow-sm block md:hidden">
     <div class="flex justify-around items-center h-10">
-      <Link
+      <SlowLink
         v-for="item in mainNavItems"
         :key="item.href"
         :href="route(item.href)"
@@ -39,7 +40,7 @@ const mainNavItems: NavItem[] = page.props.auth.user.role === 1
         >
           {{ item.title }}
         </span>
-      </Link>
+      </SlowLink>
     </div>
   </nav>
 </template>

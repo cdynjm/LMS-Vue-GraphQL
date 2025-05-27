@@ -25,7 +25,7 @@ const linksEnabled = ref(false);
 onMounted(() => {
   setTimeout(() => {
     linksEnabled.value = true;
-  }, 2000); 
+  }, 1500); 
 });
 </script>
 
