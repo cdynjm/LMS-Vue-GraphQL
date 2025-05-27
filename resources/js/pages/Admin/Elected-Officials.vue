@@ -458,7 +458,7 @@ const handleUpdatePictureChange = async (event: Event) => {
                             <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-else-if="data?.officials.length == 0">
+                    <TableRow v-else-if="data?.officials.length === 0">
                         <TableCell colspan="5">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />

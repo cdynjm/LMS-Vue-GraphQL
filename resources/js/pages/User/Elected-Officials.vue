@@ -64,7 +64,7 @@ const fetchOfficials = async () => {
 }
 
 const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ['fetchOfficials'],
+    queryKey: ['userfetchOfficials'],
     queryFn: fetchOfficials,
 });
 
@@ -98,7 +98,7 @@ const { isPending, error, data, isFetching } = useQuery({
                             <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-else-if="data?.userofficials.length == 0">
+                    <TableRow v-else-if="data?.userofficials.length === 0">
                         <TableCell colspan="5">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />

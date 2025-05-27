@@ -876,7 +876,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-else-if="data?.files.subCategoriesList.length == 0">
+                    <TableRow v-else-if="data?.files.subCategoriesList.length === 0">
                         <TableCell colspan="5">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />
@@ -929,7 +929,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                 </Button>
             </div>
 
-            <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length == 0 && !isFetching">
+            <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length === 0 && !isFetching">
                 <Card class="shadow-none">
                     <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
                         <MinusCircle class="w-5 h-auto" /> No Data Found

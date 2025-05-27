@@ -62,7 +62,7 @@ const fetchCategories = async () => {
 }
 
 const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ['fetchCategories'],
+    queryKey: ['userfetchCategories'],
     queryFn: fetchCategories,
 });
 
@@ -98,7 +98,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             <Skeleton />
                         </TableCell>
                     </TableRow>
-                    <TableRow v-else-if="data?.usercategories.categoriesList.length == 0">
+                    <TableRow v-else-if="data?.usercategories.categoriesList.length === 0">
                         <TableCell colspan="5">
                             <small class="text-center text-red-500 flex items-center justify-center">
                                 <MinusCircle class="mr-2 w-5" />

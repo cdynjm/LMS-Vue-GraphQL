@@ -106,7 +106,7 @@ const fetchViewedFile = async () => {
 };
 
 const { data, isPending, isFetching, isLoading } = useQuery({
-    queryKey: ['fetchViewedFile'],
+    queryKey: ['userfetchViewedFile'],
     queryFn: fetchViewedFile,
 });
 

@@ -59,7 +59,7 @@ const fetchDashboard = async () => {
 }
 
 const { isPending, data, error, isFetching } = useQuery({
-    queryKey: ['fetchDashboard'],
+    queryKey: ['userfetchDashboard'],
     queryFn: fetchDashboard
 });
 
@@ -131,6 +131,14 @@ const { isPending, data, error, isFetching } = useQuery({
                         </div>
                     </CardDescription>
                 </div>
+            </Card>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 p-4" v-if="data?.userdashboard.files.length === 0 && !isFetching">
+            <Card class="shadow-none">
+                <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
+                    <MinusCircle class="w-5 h-auto" /> No Data Found
+                </CardDescription>
             </Card>
         </div>
 

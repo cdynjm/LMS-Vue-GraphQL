@@ -185,6 +185,13 @@ const goToPreviousPage = () => {
                         </CardDescription>
                     </div>
                 </Card>
+                <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length == 0 && !isFetching">
+                    <Card class="shadow-none">
+                        <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
+                            <MinusCircle class="w-5 h-auto" /> No Data Found
+                        </CardDescription>
+                    </Card>
+                </div>
                 <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
                     <Card v-if="isFetching" class="shadow-none" v-for="n in 3">
                         <CardHeader class="text-[14px]">
@@ -286,7 +293,7 @@ const goToPreviousPage = () => {
                     </Card>
                 </div>
                 <Pagination :current-page="paginatorInfo.currentPage" :last-page="paginatorInfo.lastPage"
-                @next="goToNextPage" @previous="goToPreviousPage" />
+                    @next="goToNextPage" @previous="goToPreviousPage" />
             </main>
             <NavFooter />
         </div>

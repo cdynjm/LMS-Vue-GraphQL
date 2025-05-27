@@ -152,6 +152,14 @@ const { isPending, data, error, isFetching } = useQuery({
             </Card>
         </div>
 
+        <div class="grid grid-cols-1 gap-4 p-4" v-if="data?.dashboard.files.length === 0 && !isFetching">
+            <Card class="shadow-none">
+                <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
+                    <MinusCircle class="w-5 h-auto" /> No Data Found
+                </CardDescription>
+            </Card>
+        </div>
+
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 p-4">
             <Card v-if="isFetching" class="shadow-none" v-for="n in 3">
                 <CardHeader class="text-[14px]">
