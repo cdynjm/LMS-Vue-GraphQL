@@ -41,7 +41,7 @@ function handleClick(event: Event) {
         });
       },
     });
-  }, 1500);
+  }, 1250);
 }
 </script>
 
