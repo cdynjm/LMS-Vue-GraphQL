@@ -46,7 +46,7 @@ function handleClick(event: Event) {
         });
       },
     });
-  }, 1000);
+  }, 1200);
 }
 </script>
 
@@ -62,3 +62,9 @@ function handleClick(event: Event) {
     <slot />
   </a>
 </template>
+
+<style>
+#nprogress .bar {
+  background: red !important;
+}
+</style>
