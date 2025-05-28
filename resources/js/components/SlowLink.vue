@@ -12,7 +12,12 @@ const props = defineProps({
   },
 });
 
-NProgress.configure({ showSpinner: false });
+NProgress.configure({
+  showSpinner: false,
+  trickleSpeed: 50,
+  easing: 'ease',
+  speed: 300
+});
 
 const loading = ref(false);
 
@@ -41,7 +46,7 @@ function handleClick(event: Event) {
         });
       },
     });
-  }, 1250);
+  }, 1500);
 }
 </script>
 
