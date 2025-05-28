@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { router, Link } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 const props = defineProps({
   href: { type: String, required: true },
@@ -10,6 +12,8 @@ const props = defineProps({
   },
 });
 
+NProgress.configure({ showSpinner: false });
+
 const loading = ref(false);
 
 function handleClick(event: Event) {
@@ -18,10 +22,15 @@ function handleClick(event: Event) {
   if (loading.value) return;
 
   loading.value = true;
+  NProgress.start();
 
   setTimeout(() => {
-    router.visit(props.href);
-    loading.value = false;
+    router.visit(props.href, {
+      onFinish: () => {
+        loading.value = false;
+        NProgress.done();
+      },
+    });
   }, 1500);
 }
 </script>
