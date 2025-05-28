@@ -4,6 +4,7 @@ import { DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSep
 import type { User } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
 import { LogOut, Settings } from 'lucide-vue-next';
+import SlowLink from '@/components/SlowLink.vue';
 
 interface Props {
     user: User;
@@ -25,10 +26,10 @@ defineProps<Props>();
     <DropdownMenuSeparator />
     <DropdownMenuGroup>
         <DropdownMenuItem :as-child="true">
-            <Link class="block w-full" :href="route('profile.edit')" prefetch as="button">
+            <SlowLink class="block w-full" :href="route('profile.edit')" prefetch as="button">
                 <Settings class="mr-2 h-4 w-4" />
                 Settings
-            </Link>
+            </SlowLink>
         </DropdownMenuItem>
     </DropdownMenuGroup>
     <DropdownMenuSeparator />

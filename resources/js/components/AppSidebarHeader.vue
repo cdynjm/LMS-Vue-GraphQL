@@ -24,6 +24,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import SlowLink from '@/components/SlowLink.vue';
+
 
 
 const page = usePage<SharedData>();
@@ -69,9 +71,9 @@ const handleLogout = () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link :href="route('profile.edit')">
+            <SlowLink :href="route('profile.edit')">
               <span>Profile</span>
-            </Link>
+            </SlowLink>
             <DropdownMenuShortcut><User2Icon /></DropdownMenuShortcut>
           </DropdownMenuItem>
         <DropdownMenuItem>

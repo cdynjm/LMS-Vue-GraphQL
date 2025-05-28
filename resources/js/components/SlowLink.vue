@@ -24,11 +24,21 @@ function handleClick(event: Event) {
   loading.value = true;
   NProgress.start();
 
+  // Disable all links
+  document.querySelectorAll('a').forEach((link) => {
+    link.classList.add('pointer-events-none');
+  });
+
   setTimeout(() => {
     router.visit(props.href, {
       onFinish: () => {
         loading.value = false;
         NProgress.done();
+
+        // Re-enable all links
+        document.querySelectorAll('a').forEach((link) => {
+          link.classList.remove('pointer-events-none');
+        });
       },
     });
   }, 1500);
@@ -40,7 +50,7 @@ function handleClick(event: Event) {
     :href="props.href"
     :class="[
       props.class,
-      { 'pointer-events-none opacity-50': loading }
+      { 'opacity-50': loading }
     ]"
     @click="handleClick"
   >
