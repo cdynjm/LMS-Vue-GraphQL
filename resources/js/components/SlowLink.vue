@@ -46,7 +46,7 @@ function handleClick(event: Event) {
         });
       },
     });
-  }, 1250);
+  }, 1000);
 }
 </script>
 
