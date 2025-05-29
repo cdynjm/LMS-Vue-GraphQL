@@ -7,6 +7,7 @@ import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { BookOpen, Folder, LayoutGrid, User2, UserCheck } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import SlowLink from './SlowLink.vue';
 
 const page = usePage<SharedData>();
 
@@ -31,9 +32,9 @@ const mainNavItems: NavItem[] = page.props.auth.user.role === 1
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="page.props.auth.user.role == 1 ? route('admin.dashboard') : route('user.dashboard')">
+                        <SlowLink :href="page.props.auth.user.role == 1 ? route('admin.dashboard') : route('user.dashboard')">
                         <AppLogo />
-                        </Link>
+                        </SlowLink>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>

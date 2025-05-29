@@ -21,7 +21,7 @@ import axios from 'axios';
 import { Pencil, Trash2, MinusCircle, Loader2Icon } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 import Skeleton from '@/components/Skeleton.vue';
-import { LoaderCircle } from 'lucide-vue-next';
+import { LoaderCircle, UserCircle2 } from 'lucide-vue-next';
 import NavFooterFix from '@/components/NavFooterFix.vue';
 
 const queryClient = useQueryClient()
@@ -276,7 +276,12 @@ const deleteAdmin = () => {
                     </TableRow>
                     <TableRow v-else v-for="(admin, index) in data?.admins" :key="admin.encrypted_id">
                         <TableCell><small>{{ index + 1 }}</small></TableCell>
-                        <TableCell>{{ admin.name }}</TableCell>
+                        <TableCell>
+                            <div class="flex items-center gap-2">
+                                <UserCircle2 class="text-gray-500" />
+                                <span>{{ admin.name }}</span>
+                            </div>
+                        </TableCell>
                         <TableCell>{{ admin.email }}</TableCell>
                         <TableCell>{{ admin.role == 1 ? 'Admin' : '' }}</TableCell>
                         <TableCell class="text-right">

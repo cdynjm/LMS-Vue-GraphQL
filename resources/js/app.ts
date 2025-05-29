@@ -27,7 +27,4 @@ createInertiaApp({
             .use(VueQueryPlugin, { queryClient }) // 👈 Register TanStack Query
             .mount(el);
     },
-    progress: {
-        color: 'red',
-    },
 });

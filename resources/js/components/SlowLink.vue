@@ -29,7 +29,6 @@ function handleClick(event: Event) {
   loading.value = true;
   NProgress.start();
 
-  // Disable all links
   document.querySelectorAll('a').forEach((link) => {
     link.classList.add('pointer-events-none');
   });
@@ -40,13 +39,12 @@ function handleClick(event: Event) {
         loading.value = false;
         NProgress.done();
 
-        // Re-enable all links
         document.querySelectorAll('a').forEach((link) => {
           link.classList.remove('pointer-events-none');
         });
       },
     });
-  }, 1200);
+  }, 1000);
 }
 </script>
 
@@ -62,9 +60,3 @@ function handleClick(event: Event) {
     <slot />
   </a>
 </template>
-
-<style>
-#nprogress .bar {
-  background: red !important;
-}
-</style>

@@ -10,11 +10,11 @@ defineProps<{
 </script>
 
 <template>
-    <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+    <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-4">
         <div class="flex w-full max-w-md flex-col gap-6">
             <div class="flex flex-col gap-6">
                 <Card class="rounded-xl shadow-none">
-                    <CardHeader class="px-10 pb-0 pt-8 text-center">
+                    <CardHeader class="px-10 pb-0 pt-4 text-center">
                         <Link :href="route('home')"
                             class="flex items-center justify-center gap-2 self-center font-medium">
                         <div class="flex h-10 w-10 items-center justify-center">
@@ -22,12 +22,13 @@ defineProps<{
                         </div>
                         <span class="font-semibold text-black dark:text-white text-[14px]">Legislative MS</span>
                         </Link>
-                        <CardTitle class="mt-4 text-[14px]">{{ title }}</CardTitle>
+                        <hr class="my-2">
+                        <CardTitle class="mt-0 text-[14px]">{{ title }}</CardTitle>
                         <CardDescription class="text-[12px]">
                             {{ description }}
                         </CardDescription>
                     </CardHeader>
-                    <CardContent class="px-10 py-5">
+                    <CardContent class="px-10 py-4">
                         <slot />
                     </CardContent>
                 </Card>

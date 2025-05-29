@@ -93,7 +93,7 @@ const submit = () => {
                     <div class="flex flex-col items-center gap-4">
                         <!-- Legislative Logo + Labels -->
                         <Link :href="'/'" class="flex flex-col items-center">
-                        <img draggable="false" src="/app-logo.jpg" class="h-10 w-10" alt="App Logo" />
+                      
                         <div class="flex flex-col text-center mt-2">
                             <span class="text-[14px] font-semibold whitespace-nowrap dark:text-white">Legislative
                                 MS</span>
