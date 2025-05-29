@@ -26,6 +26,7 @@ final readonly class File
 
         $paginator = Files::with((new Files)->relation)
             ->where('categoryID', $aes->decrypt($args['id']))
+            ->where('title', 'like', '%'.$args['search'].'%')
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage, ['*'], 'page', $page);
 
@@ -45,7 +46,9 @@ final readonly class File
 
             'authors' => Officials::orderBy('name', 'ASC')->get(),
 
-            'subCategoriesList' => Categories::where('parentID', $aes->decrypt($args['id']))->orderBy('created_at', 'DESC')->get(),
+            'subCategoriesList' => Categories::where('parentID', $aes->decrypt($args['id']))
+            ->where('category', 'like', '%'.$args['search'].'%')
+            ->orderBy('created_at', 'DESC')->get(),
         ];
     }
     private function authorize(): bool

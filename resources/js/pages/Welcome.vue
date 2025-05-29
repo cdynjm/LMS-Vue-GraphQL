@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2, MinusCircle, PenIcon, ArrowRight, ArrowLeft, CheckCircle, File, Folder, LocateIcon } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, PenIcon, ArrowRight, ArrowLeft, Search, CheckCircle, File, Folder, LoaderCircle, LocateIcon } from 'lucide-vue-next';
 import Skeleton from '@/components/Skeleton.vue';
 import SkeletonCard from '@/components/SkeletonCard.vue';
 import SkeletonBox from '@/components/SkeletonBox.vue';
@@ -27,7 +27,6 @@ import Pagination from '@/components/Pagination.vue';
 const queryClient = useQueryClient();
 
 const currentPage = ref(1);
-const searchQuery = ref('');
 const fileSearchData = ref<any[]>([]);
 
 const paginatorInfo = ref({
@@ -38,8 +37,8 @@ const paginatorInfo = ref({
 
 const guestFetchFiles = async () => {
     const query = `
-    query ($page: Int, $first: Int!)  {
-      welcome(page: $page, first: $first) {
+    query ($page: Int, $first: Int!, $search: String)  {
+      welcome(page: $page, first: $first, search: $search) {
         filesListPaginated {
           data {
             municipalStatus
@@ -81,6 +80,7 @@ const guestFetchFiles = async () => {
         variables: {
             page: currentPage.value,
             first: 10,
+            search: searchQuery.value
         },
     });
 
@@ -99,16 +99,17 @@ watchEffect(() => {
     }
 });
 
-const filteredFiles = computed(() => {
-    const query = searchQuery.value.toLowerCase();
-    return fileSearchData.value.filter((file) => {
-        return (
-            file.title?.toLowerCase().includes(query) ||
-            file.ordinanceNumber?.toLowerCase()?.includes(query) ||
-            file.author.name?.toLowerCase()?.includes(query)
-        );
-    });
-});
+const searchQuery = ref<string>('');
+const isSearching = ref<boolean>(false);
+
+const searchQuerybtn = () => {
+    if (isSearching.value) return;
+    isSearching.value = true;
+    setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['guestFetchFiles'] });
+        isSearching.value = false;
+    }, 2000);
+};
 
 const goToNextPage = () => {
     if (currentPage.value < paginatorInfo.value.lastPage) {
@@ -185,7 +186,14 @@ const goToPreviousPage = () => {
                         </CardDescription>
                     </div>
                 </Card>
-                <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length == 0 && !isPending">
+                <div class="flex items-center gap-2 w-full sm:w-auto my-4">
+                    <Input v-model="searchQuery" placeholder="Search..." class="w-full bg-white shadow-none sm:w-full text-sm" />
+                    <Button @click="searchQuerybtn" :disabled="isSearching" class="text-sm flex items-center gap-1">
+                        <LoaderCircle v-if="isSearching" class="h-4 w-4 animate-spin" />
+                        <Search v-else />
+                    </Button>
+                </div>
+                <div class="grid grid-cols-1 gap-4" v-if="fileSearchData.length == 0 && !isPending">
                     <Card class="shadow-none">
                         <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
                             <MinusCircle class="w-5 h-auto" /> No Data Found
@@ -202,7 +210,7 @@ const goToPreviousPage = () => {
                         </CardContent>
                     </Card>
 
-                    <Card v-else class="shadow-none flex flex-col h-full" v-for="(files, index) in filteredFiles">
+                    <Card v-else class="shadow-none flex flex-col h-full" v-for="(files, index) in fileSearchData">
                         <CardHeader class="text-[14px]">
                             <CardTitle>Ordinance Number</CardTitle>
                             <CardDescription>{{ files.ordinanceNumber != null ? files.ordinanceNumber : '-' }}

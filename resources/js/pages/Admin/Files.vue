@@ -40,7 +40,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import axios from 'axios';
-import { Pencil, Trash2, MinusCircle, CheckCircle, PenIcon, Loader2Icon, Folder, File, LucideFileText, LoaderCircle, Eye, ArrowRightCircle, ArrowLeftCircle, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+import { Pencil, Trash2, MinusCircle, CheckCircle, PenIcon, Search, Loader2Icon, Folder, File, LucideFileText, LoaderCircle, Eye, ArrowRightCircle, ArrowLeftCircle, ArrowRight, ArrowLeft, FileSignatureIcon } from 'lucide-vue-next';
 import { toast } from 'vue-sonner'
 import { Textarea } from '@/./components/ui/textarea/'
 import Skeleton from '@/components/Skeleton.vue';
@@ -63,7 +63,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const currentPage = ref(1);
-const searchQuery = ref('');
 const fileSearchData = ref<any[]>([]);
 
 const paginatorInfo = ref({
@@ -74,8 +73,8 @@ const paginatorInfo = ref({
 
 const fetchFiles = async () => {
     const query = `
-    query ($id: String!, $page: Int!, $first: Int!) {
-      files(id: $id, page: $page, first: $first) {
+    query ($id: String!, $page: Int!, $first: Int!, $search: String) {
+      files(id: $id, page: $page, first: $first, search: $search) {
         categoryName {
           encrypted_id
           category
@@ -142,6 +141,7 @@ const fetchFiles = async () => {
             id: props.id,
             page: currentPage.value,
             first: 20,
+            search: searchQuery.value
         },
     });
 
@@ -160,16 +160,17 @@ watchEffect(() => {
     }
 });
 
-const filteredFiles = computed(() => {
-    const query = searchQuery.value.toLowerCase();
-    return fileSearchData.value.filter((file) => {
-        return (
-            file.title?.toLowerCase().includes(query) ||
-            file.ordinanceNumber?.toLowerCase()?.includes(query) ||
-            file.author.name?.toLowerCase()?.includes(query)
-        );
-    });
-});
+const searchQuery = ref<string>('');
+const isSearching = ref<boolean>(false);
+
+const searchQuerybtn = () => {
+    if (isSearching.value) return;
+    isSearching.value = true;
+    setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['fetchFiles'] });
+        isSearching.value = false;
+    }, 2000);
+};
 
 const goToNextPage = () => {
     if (currentPage.value < paginatorInfo.value.lastPage) {
@@ -471,7 +472,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
             <!-- Top Right Add Button -->
             <div class="flex w-full justify-between items-center">
 
-                <div v-if="isFetching" >
+                <div v-if="isFetching">
                     <SkeletonCard />
                 </div>
 
@@ -864,6 +865,14 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
 
             </div>
 
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <Input v-model="searchQuery" placeholder="Search..." class="w-full sm:w-72 text-sm" />
+                <Button @click="searchQuerybtn" :disabled="isSearching" class="text-sm flex items-center gap-1">
+                    <LoaderCircle v-if="isSearching" class="h-4 w-4 animate-spin" />
+                    <Search v-else />
+                </Button>
+            </div>
+
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -894,15 +903,15 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                         </TableCell>
                         <TableCell class="w-[300px] pr-20">
                             <SlowLink :href="route('admin.files', { id: category.encrypted_id })" prefetch>
-                            <div class="flex items-center space-x-3">
-                                <div>
-                                    <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
-                                        fill="currentColor" />
+                                <div class="flex items-center space-x-3">
+                                    <div>
+                                        <Folder class="h-8 w-8 flex-shrink-0 rounded-full border p-1 text-blue-500"
+                                            fill="currentColor" />
+                                    </div>
+                                    <div>
+                                        <div class="font-medium">{{ category.category }}</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="font-medium">{{ category.category }}</div>
-                                </div>
-                            </div>
                             </SlowLink>
                         </TableCell>
                         <TableCell>{{ category.totalFiles }}</TableCell>
@@ -924,16 +933,17 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                 </TableBody>
             </Table>
 
-            <div class="flex items-center justify-between space-x-4">
-                <Input v-model="searchQuery" placeholder="Search... (if no results, go to next page)"
-                    class="w-full max-w-md text-sm" />
-
-                <Button @click="createFileDialog(data?.files.categoryName.encrypted_id)" class="cursor-pointer">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <h6 class="flex text-md font-bold items-center">
+                    <FileSignatureIcon class="h-8 w-8 mr-2 flex-shrink-0 rounded-full border p-1 text-green-500"/>
+                    Files
+                </h6>
+                <Button @click="createFileDialog(data?.files.categoryName.encrypted_id)" class="text-sm">
                     + New
                 </Button>
             </div>
 
-            <div class="grid grid-cols-1 gap-4" v-if="filteredFiles.length === 0 && !isFetching">
+            <div class="grid grid-cols-1 gap-4" v-if="fileSearchData.length === 0 && !isFetching">
                 <Card class="shadow-none">
                     <CardDescription class="text-red-500 flex items-center justify-center text-[12px] gap-2">
                         <MinusCircle class="w-5 h-auto" /> No Data Found
@@ -951,7 +961,7 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                     </CardContent>
                 </Card>
 
-                <Card v-else class="shadow-none flex flex-col h-full" v-for="(files, index) in filteredFiles">
+                <Card v-else class="shadow-none flex flex-col h-full" v-for="(files, index) in fileSearchData">
                     <CardHeader class="text-[14px]">
                         <CardTitle>Ordinance Number</CardTitle>
                         <CardDescription>{{ files.ordinanceNumber != null ? files.ordinanceNumber : '-' }}
@@ -969,9 +979,9 @@ function navigateTo(name: string, params: Record<string, any> = {}) {
                             </div>
 
                             <SlowLink :href="route('admin.view-file', { id: files.encrypted_id })" prefetch>
-                            <Button variant="link" class="ml-0 cursor-pointer">
-                                <Eye />
-                            </Button>
+                                <Button variant="link" class="ml-0 cursor-pointer">
+                                    <Eye />
+                                </Button>
                             </SlowLink>
 
                         </div>

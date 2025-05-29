@@ -21,6 +21,7 @@ final readonly class Welcome
         $perPage = $args['first'];
 
         $paginator = Files::with((new Files)->relation)
+             ->where('title', 'like', '%'.$args['search'].'%')
             ->orderBy('updated_at', 'DESC')
             ->paginate($perPage, ['*'], 'page', $page);
 

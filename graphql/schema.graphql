@@ -113,7 +113,7 @@ type ViewFile {
 
 #GUEST QUERY - WELCOME PAGE
 extend type Query {
-  welcome(page: Int, first: Int!): Welcome
+  welcome(page: Int, first: Int!, search: String): Welcome
     @field(resolver: "App\\GraphQL\\Queries\\Guest\\Welcome")
 }
 
@@ -131,7 +131,7 @@ type Query @guard {
   categories: Category
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\FileManager")
 
-  files(id: String!, page: Int, first: Int!): File
+  files(id: String!, page: Int, first: Int!, search: String): File
     @field(resolver: "App\\GraphQL\\Queries\\Admin\\File")
 
   viewFile(id: String!): ViewFile
@@ -149,7 +149,7 @@ extend type Query @guard {
   usercategories: Category
     @field(resolver: "App\\GraphQL\\Queries\\User\\FileManager")
 
-  userfiles(id: String!, page: Int, first: Int!): File
+  userfiles(id: String!, page: Int, first: Int!, search: String): File
     @field(resolver: "App\\GraphQL\\Queries\\User\\File")
 
   userviewFile(id: String!): ViewFile
