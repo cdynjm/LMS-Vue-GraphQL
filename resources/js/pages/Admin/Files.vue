@@ -64,6 +64,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const currentPage = ref(1);
 const fileSearchData = ref<any[]>([]);
+const searchQuery = ref<string>('');
 
 const paginatorInfo = ref({
     currentPage: 1,
@@ -160,7 +161,6 @@ watchEffect(() => {
     }
 });
 
-const searchQuery = ref<string>('');
 const isSearching = ref<boolean>(false);
 
 const searchQuerybtn = () => {
